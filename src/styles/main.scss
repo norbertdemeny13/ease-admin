@@ -1,0 +1,42 @@
+// 3rd parties
+@import '~@fortawesome/fontawesome-free/scss/fontawesome';
+@import '~vue-phone-number-input/dist/vue-phone-number-input.css';
+@import '~bootstrap/dist/css/bootstrap.min.css';
+
+// animtions
+@import "animations/fade";
+
+// globals
+@import "globals/base";
+
+// vendors
+@import "vendors/vue-slider";
+@import "vendors/flatpckr";
+@import "vendors/bootstrap_customized.min.css";
+@import "vendors/style";
+@import "vendors/home.css";
+@import "vendors/custom.css";
+
+// variables
+@import "variables/variables";
+
+// utilities
+@import "utilities/functions/get-color";
+@import "utilities/functions/get-value";
+
+// variables
+@import "utilities/variables/color";
+
+// mixins
+@import "mixins/mixins";
+
+// components
+@import "components/order-sign-up";
+@import "components/listing";
+@import "components/skeleton";
+@import "components/404";
+@import "components/contacts";
+@import "components/modal";
+@import "components/order";
+@import "components/pricing-plan";
+@import "components/toasts";

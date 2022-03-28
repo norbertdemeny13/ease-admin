@@ -1,0 +1,33 @@
+#not-found-page {
+  display: flex;
+  flex-direction: column;
+  height: 580px;
+  justify-content: center;
+  width: 100%;
+}
+
+@media (max-width: 767px) {
+  #not-found-page img {
+    height: auto;
+    width: 280px;
+  }
+}
+
+#not-found-page p {
+  font-size: 21px;
+  font-size: 1.3125rem;
+}
+
+@media (max-width: 767px) {
+  #not-found-page p {
+    font-size: 18px;
+    font-size: 1.125rem;
+  }
+}
+
+@media (max-width: 767px) {
+  #not-found-page {
+    height: 500px;
+    padding: 60px 0 0 0;
+  }
+}
