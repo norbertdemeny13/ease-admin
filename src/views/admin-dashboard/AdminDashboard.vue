@@ -9,40 +9,107 @@
       <router-view />
     </component>
     <div v-else class="bg_gray content">
-      <div class="container margin_30_20">
-        <div class="row bg-white p-4">
-          <div class="col-md-4">
-            <router-link class="back-button" href="" to="/">
-              {{ $t('generic.back') }}
-            </router-link>
-            <h4 class="mt-2">Admin dashboard</h4>
-            <div>
-              <div class="form-group">
-                <label>{{ $t('generic.email') }}</label>
-                <input type="email" required class="form-control" name="email" id="email" v-model="form.email">
-              </div>
-              <div class="form-group">
-                <label>{{ $t('generic.password') }}</label>
-                <input
-                  :type="passwordType"
-                  class="form-control"
-                  name="password"
-                  id="password"
-                  v-model="form.password"
-                >
-                  <span v-if="passwordType === 'password'" class="show-password-btn" @click.prevent="passwordType = 'text'">{{ $t('generic.password_show') }}</span>
-                  <span v-if="passwordType === 'text'" class="show-password-btn" @click.prevent="passwordType = 'password'">{{ $t('generic.password_hide') }}</span>
-              </div>
-            </div>
-            <div class="d-flex justify-content-end">
-              <button
-                class="btn btn-sm btn-pink btn-pill my-4 px-6"
-                @click.prevent="onLogin()"
+      <div class="auth-wrapper auth-v1 px-2">
+        <div class="auth-inner py-2">
+
+          <!-- Login v1 -->
+          <b-card class="mb-0">
+            <b-link class="brand-logo">
+              <img
+                src="@/assets/svg/ease-logo_pink.svg"
+                width="162"
+                height="45"
+                alt="Ease Logo"
               >
-                {{ $t('generic.login') }}
-              </button>
-            </div>
-          </div>
+            </b-link>
+
+            <b-card-title class="mb-1">
+              Welcome to Admin Dashboard! 👋
+            </b-card-title>
+            <b-card-text class="mb-2">
+              Please sign-in to your account and start the adventure
+            </b-card-text>
+
+            <!-- form -->
+            <validation-observer
+              ref="loginForm"
+              #default="{invalid}"
+            >
+              <b-form
+                class="auth-login-form mt-2"
+                @submit.prevent
+              >
+
+                <!-- email -->
+                <b-form-group
+                  label-for="email"
+                  label="Email"
+                >
+                  <validation-provider
+                    #default="{ errors }"
+                    name="Email"
+                    rules="required|email"
+                  >
+                    <b-form-input
+                      id="email"
+                      v-model="form.email"
+                      name="login-email"
+                      :state="errors.length > 0 ? false:null"
+                      placeholder="john@example.com"
+                      autofocus
+                    />
+                    <small class="text-danger">{{ errors[0] }}</small>
+                  </validation-provider>
+                </b-form-group>
+
+                <!-- password -->
+                <b-form-group>
+                  <validation-provider
+                    #default="{ errors }"
+                    name="Password"
+                    rules="required"
+                  >
+                    <b-input-group
+                      class="input-group-merge"
+                      :class="errors.length > 0 ? 'is-invalid':null"
+                    >
+                      <b-form-input
+                        id="password"
+                        v-model="form.password"
+                        :type="passwordFieldType"
+                        class="form-control-merge"
+                        :state="errors.length > 0 ? false:null"
+                        name="login-password"
+                        placeholder="Password"
+                      />
+
+                      <b-input-group-append is-text>
+                        <feather-icon
+                          class="cursor-pointer"
+                          :icon="passwordToggleIcon"
+                          @click="togglePasswordVisibility"
+                        />
+                      </b-input-group-append>
+                    </b-input-group>
+                    <small class="text-danger">{{ errors[0] }}</small>
+                  </validation-provider>
+                </b-form-group>
+
+                <!-- submit button -->
+                <b-button
+                  variant="primary"
+                  type="submit"
+                  block
+                  :disabled="invalid"
+                  @click="onLogin"
+                >
+                  Sign in
+                </b-button>
+              </b-form>
+            </validation-observer>
+
+          </b-card>
+          <!-- /Login v1 -->
         </div>
       </div>
     </div>
@@ -56,6 +123,15 @@
   import { mapActions, mapGetters } from 'vuex';
   import { isEqual } from 'lodash-es';
   import ScrollToTop from '@/core/components/scroll-to-top/ScrollToTop.vue';
+
+  /* eslint-disable global-require */
+  import { ValidationProvider, ValidationObserver } from 'vee-validate'
+  import {
+    BButton, BForm, BFormInput, BFormGroup, BCard, BLink, BCardTitle, BCardText, BInputGroup, BInputGroupAppend, BFormCheckbox,
+  } from 'bootstrap-vue';
+
+  import { required, email } from '@/core/utils/validations/validations.js';
+  import { togglePasswordVisibility } from '@/core/mixins/ui/forms';
 
   // This will be populated in `beforeCreate` hook
   import { $themeColors, $themeBreakpoints, $themeConfig } from '@/utils/theme-config';
@@ -73,6 +149,19 @@
   export default Vue.extend({
     name: 'es-admin-dashboard',
     components: {
+      BButton,
+      BForm,
+      BFormInput,
+      BFormGroup,
+      BCard,
+      BCardTitle,
+      BLink,
+      BCardText,
+      BInputGroup,
+      BInputGroupAppend,
+      BFormCheckbox,
+      ValidationProvider,
+      ValidationObserver,
 
       // Layouts
       LayoutHorizontal,
@@ -82,7 +171,10 @@
       ScrollToTop,
     },
 
+    mixins: [togglePasswordVisibility],
+
     data: () => ({
+      sideImg: require('@/assets/svg/login-v2.svg'),
       userType: 'admin',
       showPassword: false,
       passwordType: 'password',
@@ -96,10 +188,21 @@
     // Currently, router.currentRoute is not reactive and doesn't trigger any change
     computed: {
       ...mapGetters({
-        getAdmin: 'session/getAdmin',
+        getUser: 'session/getUser',
       }),
+      passwordToggleIcon() {
+        return this.passwordFieldType === 'password' ? 'EyeIcon' : 'EyeOffIcon'
+      },
+      imgUrl() {
+        if (store.state.appConfig.layout.skin === 'dark') {
+          // eslint-disable-next-line vue/no-side-effects-in-computed-properties
+          this.sideImg = require('@/assets/svg/login-v2-dark.svg')
+          return this.sideImg
+        }
+        return this.sideImg
+      },
       isAdmin() {
-        return this.getAdmin?.email === 'admin@ease.ro' && this.getAdmin?.name === 'Admin';
+        return this.getUser?.email === 'admin@ease.ro' && this.getUser?.name === 'Admin';
       },
       layout() {
         if (this.$route.meta.layout === 'full') return 'layout-full';
@@ -151,17 +254,17 @@
     },
 
     watch: {
-      getAdmin(newVal, oldVal) {
+      getUser(newVal, oldVal) {
         const isDifferent = !isEqual(newVal, oldVal);
         if (isDifferent && newVal?.email && newVal?.name) {
-          this.$router.push('/admin/profesionisti').catch(()=>{});;
+          this.$router.push('/profesionisti').catch(()=>{});;
         }
       },
     },
 
     methods: {
       ...mapActions({
-        login: 'session/adminLogin',
+        login: 'session/login',
       }),
       onLogin() {
         this.login({ credentials: this.form, });
@@ -169,3 +272,7 @@
     },
   });
 </script>
+
+<style lang="scss">
+@import '@/core/scss/vue/pages/page-auth.scss';
+</style>

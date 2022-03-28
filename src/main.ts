@@ -34,7 +34,6 @@ import VueSlider from 'vue-slider-component';
 import { Divider } from '@/components/shared/divider';
 import { Skeleton } from '@/components/shared/skeleton';
 import { SkeletonItem } from '@/components/shared/skeleton-item';
-import { AddressBar } from '@/components/features/address-bar';
 import { Toast } from '@/components/shared/toast';
 import { ConfirmModal } from '@/components/shared/confirm-modal';
 import { Modal } from '@/components/shared/modal';
@@ -59,7 +58,7 @@ import VueCompositionAPI from '@vue/composition-api'
 Vue.use(ModalPlugin);
 
 // Composition API
-Vue.use(VueCompositionAPI);
+Vue.use(VueCompositionAPI as any);
 Vue.component(FeatherIcon.name, FeatherIcon);
 
 // Feather font icon - For form-wizard
@@ -94,7 +93,6 @@ Vue.use(ToastPlugin);
 Vue.use(FileSelector);
 Vue.use(VueCalendly);
 
-Vue.component('es-address-bar', AddressBar);
 Vue.component('es-star-rating', StarRating);
 Vue.component('es-vue-slider', VueSlider);
 Vue.component('es-confirm-modal', ConfirmModal);

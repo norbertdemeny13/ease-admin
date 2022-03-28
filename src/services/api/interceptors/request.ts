@@ -7,10 +7,7 @@ export default (request: AxiosRequestConfig) => {
   /* eslint-disable no-param-reassign */
   request.baseURL = 'https://ease-be.herokuapp.com/api/v1';
   const authToken = localStorage.getItem('auth') && localStorage.getItem('auth')!.slice(2);
-  const adminAuthToken = localStorage.getItem('adminAuth') && localStorage.getItem('adminAuth')!.slice(2);
-  const userType = localStorage.getItem('userType');
-  const atoken = userType === 'admin' ? adminAuthToken : authToken;
-  const token = store.getters['session/getToken'] || atoken;
+  const token = store.getters['session/getToken'] || authToken;
 
   if (token) {
     request.headers = {

@@ -183,7 +183,6 @@
   import { CustomCheckbox } from '@/components/shared/custom-checkbox';
   import { Divider } from '@/components/shared/divider';
   import { CalendlyModal } from '@/components/shared/calendly-modal';
-  import { TermsAndConditionsModal } from '@/components/shared/terms-and-conditions-modal';
 
   export default Vue.extend({
     name: 'es-pro-documents',
@@ -196,7 +195,6 @@
       'es-custom-checkbox': CustomCheckbox,
       'es-divider': Divider,
       'es-calendly-modal': CalendlyModal,
-      'es-terms-and-conditions-modal': TermsAndConditionsModal
     },
 
     props: {

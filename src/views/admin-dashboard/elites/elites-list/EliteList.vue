@@ -17,7 +17,7 @@
       :city-options="cityOptions"
       :service-options="serviceOptions"
       :status-options="statusOptions"
-      :services="getProServices"
+      :services="getServices"
       :service-ids="serviceIds"
     />
 
@@ -220,12 +220,12 @@
 
     created() {
       this.fetchElites(this.dataMeta);
-      this.fetchProServices();
+      this.fetchServices();
     },
     computed: {
       ...mapGetters({
         getElites: 'admin/getElites',
-        getProServices: 'services/getProServices',
+        getServices: 'services/getServices',
       }),
       elites() {
         const elites = this.getElites.items || [];
@@ -263,7 +263,7 @@
     methods: {
       ...mapActions({
         fetchElites: 'admin/fetchElites',
-        fetchProServices: 'services/fetchProServices',
+        fetchServices: 'services/fetchServices',
       }),
       setMeta(meta) {
         this.dataMeta = { 

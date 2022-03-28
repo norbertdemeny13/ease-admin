@@ -37,7 +37,7 @@
         "express": "^4.17.2",
         "flatpickr": "^4.6.9",
         "lodash-es": "4.17.15",
-        "vee-validate": "^4.5.9",
+        "vee-validate": "3.4.5",
         "vue": "^2.6.11",
         "vue-feather-icons": "^5.1.0",
         "vue-file-selector": "^0.6.0",

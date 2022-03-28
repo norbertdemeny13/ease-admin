@@ -97,8 +97,6 @@
   import { mapGetters, mapActions } from 'vuex';
   import { BCard, BRow, BFormCheckbox } from 'bootstrap-vue';
   import { Card, CardsContaienr } from '@/components/shared/card';
-  import { ForgotPasswordModal } from '@/components/shared/forgot-password-modal';
-  import { ResetPasswordModal } from '@/components/shared/reset-password-modal';
   import { isEqual } from 'lodash-es';
 
   export default Vue.extend({
@@ -133,7 +131,7 @@
 
     computed: {
       ...mapGetters({
-        getServices: 'services/getProServices',
+        getServices: 'services/getServices',
       }),
 
       servicesList() {
@@ -158,7 +156,7 @@
 
     methods: {
       ...mapActions({
-        fetchServices: 'services/fetchProServices',
+        fetchServices: 'services/fetchServices',
       }),
       getClass(itemId) {
         const selectedItem = this.services.filter(({ id }) => id == itemId);
