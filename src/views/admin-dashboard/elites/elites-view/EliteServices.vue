@@ -146,6 +146,11 @@
     },
 
     watch: {
+      userData(newVal) {
+        if (newVal) {
+          this.updateServices();
+        }
+      },
       user: {
         handler(newVal) {
           this.$emit('on-update-elite', newVal);

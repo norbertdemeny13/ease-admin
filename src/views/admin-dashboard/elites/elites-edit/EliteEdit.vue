@@ -102,16 +102,17 @@
   import { mapActions, mapGetters } from 'vuex';
   import {
     BTab, BRow, BCol, BTabs, BCard, BAlert, BLink, BButton,
-  } from 'bootstrap-vue'
-  import { ref, onUnmounted } from '@vue/composition-api'
-  import router from '@/router'
-  import store from '@/store'
+  } from 'bootstrap-vue';
+  import { ref, onUnmounted } from '@vue/composition-api';
+  import router from '@/router';
+  import store from '@/store';
+  import { isEqual } from 'lodash-es';
   import EliteServices from '../elites-view/EliteServices';
   import EliteDocuments from '../elites-view/EliteDocuments';
-  import userStoreModule from '../eliteStoreModule'
-  import UserEditTabAccount from './EliteEditTabAccount.vue'
-  import UserEditTabInformation from './EliteEditTabInformation.vue'
-  import UserEditTabSocial from './EliteEditTabSocial.vue'
+  import userStoreModule from '../eliteStoreModule';
+  import UserEditTabAccount from './EliteEditTabAccount.vue';
+  import UserEditTabInformation from './EliteEditTabInformation.vue';
+  import UserEditTabSocial from './EliteEditTabSocial.vue';
 
   export default {
     components: {
@@ -131,6 +132,7 @@
     },
 
     data: () => ({
+      avatar: '',
       elite: {
         full_name: '',
         first_name: '',
@@ -158,17 +160,34 @@
       this.elite = { ...this.elite, ...this.getSelectedElite };
     },
 
+    watch: {
+      getSelectedElite(newVal, oldVal) {
+        if(!isEqual(newVal, oldVal)) {
+          this.elite = { ...this.elite, ...newVal };
+        }
+      },
+    },
+
     methods: {
       ...mapActions({
         fetchElites: 'admin/fetchElite',
         updateElite: 'admin/updateElite',
+        updateProfilePicture: 'admin/updateProfilePicture',
       }),
       onUpdateElite(elite) {
         this.elite = { ...this.elite, ...elite };
       },
-      onUpdateProfilePicture(avatar) {
-        this.elite.avatar = avatar;
+
+      async onSavePicture() {
+        let formData = new FormData();
+        formData.append('avatar', this.avatar, this.avatar.name);
+        this.updateProfilePicture(formData);
       },
+
+      onUpdateProfilePicture(avatar) {
+        this.avatar = avatar;
+      },
+
       async onSave() {
         this.$toasts.toast({
           id: 'update-toast',
@@ -176,6 +195,11 @@
           message: this.$t('toast.account_update'),
           intent: 'success',
         });
+
+        if (this.avatar) {
+          await this.onSavePicture();
+        }
+
         await this.updateElite(this.$data);
         const eliteId = this.$router.currentRoute.params.id;
         await this.fetchElites(eliteId);

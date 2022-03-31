@@ -211,7 +211,6 @@
     data: () => ({
       isCalendlyModalOpen: false,
       isTermsAndConditionsModalOpen: false,
-      isCertificateOfCalificationAccepted: false,
       user: {
         accord_accepted: false,
       },
@@ -277,7 +276,6 @@
 
     created() {
       this.user = { ...this.userData };
-      this.isCertificateOfCalificationAccepted = this.userData.certificate_of_calification_confirmed === 'accepted' ? true : false;
     },
 
     watch: {
@@ -297,9 +295,6 @@
         uploadDocuments: 'elite/uploadDocuments',
         updateElite: 'session/updateElite',
       }),
-      handleFilesChanged(files, type) {
-        this.$data.documents[type] = [...this.$data.documents[type], ...files];
-      },
       onRemove(type, index) {
         const newArray = this.$data.documents[type].splice(index, 1);
       },

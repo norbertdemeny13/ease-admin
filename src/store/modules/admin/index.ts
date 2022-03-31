@@ -9,7 +9,7 @@ import { store } from '@/store';
 export interface State extends ModuleState {
   isFetching: boolean;
   elites: [];
-  selectedElite: {};
+  selectedElite: any;
 }
 
 export default {
@@ -18,7 +18,9 @@ export default {
   state: () => ({
     isFetching: false,
     elites: [],
-    selectedElite: {},
+    selectedElite: {
+      id: '',
+    },
   }) as State,
 
   actions: {
@@ -49,6 +51,22 @@ export default {
         Vue.set(state, 'selectedElite', data);
       } finally {
         Vue.set(state, 'isFetching', false);
+      }
+    },
+    async updateProfilePicture({ state, commit }, formData) {
+      Vue.set(state, 'isFetchingUser', true);
+      try {
+        await api.update(
+          `admin/elites/${state.selectedElite.id}/update_avatar`,
+          { data: formData },
+          {
+            contentType: 'multipart/form-data'
+          } as any,
+        );
+      } catch({ response: reason }) {
+        commit('common/setErrors', reason, { root: true });
+      }  finally {
+        Vue.set(state, 'isFetchingUser', false);
       }
     },
     async updateElite({ state }, { elite }) {
