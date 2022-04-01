@@ -12,13 +12,19 @@
     <b-card-body>
       <ul class="list-unstyled my-1">
         <li>
-          <h5 class="mb-0">Nume: <span class="align-middle">{{ userData.company_name }}</span></h5>
+          <h5 class="mb-0">Nume: <span class="align-middle">{{ userData.company_name || '-' }}</span></h5>
         </li>
         <li class="my-25">
-          <h5 class="mb-0">CIF: <span class="align-middle">{{ userData.cif_number }}</span></h5>
+          <h5 class="mb-0">CIF: <span class="align-middle">{{ userData.cif_number || '-' }}</span></h5>
+        </li>
+        <li class="my-25">
+          <h5 class="mb-0">Registration Nr.: <span class="align-middle">{{ userData.registration_number || '-' }}</span></h5>
+        </li>
+        <li class="my-25">
+          <h5 class="mb-0">Heard from: <span class="align-middle">{{ userData.heard_from || '-' }}</span></h5>
         </li>
         <li>
-          <h5 class="mb-0">Registration Nr.: <span class="align-middle">{{ userData.registration_number }}</span></h5>
+          <h5 class="mb-0">Expected salary: <span class="align-middle">{{ userData.expected_salary || '-' }}</span></h5>
         </li>
       </ul>
     </b-card-body>

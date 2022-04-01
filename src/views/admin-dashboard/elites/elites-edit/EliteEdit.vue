@@ -63,13 +63,13 @@
         <b-tab>
           <template #title>
             <feather-icon
-              icon="Share2Icon"
+              icon="FileIcon"
               size="16"
               class="mr-0 mr-sm-50"
             />
-            <span class="d-none d-sm-inline">Social</span>
+            <span class="d-none d-sm-inline">Date facturare</span>
           </template>
-          <user-edit-tab-social class="mt-2 pt-75" @on-save="onSave" />
+          <user-edit-tab-social class="mt-2 pt-75" :user-data="getSelectedElite" @on-save="onSave" />
         </b-tab>
       </b-tabs>
     </component>
@@ -189,6 +189,16 @@
       },
 
       async onSave() {
+        const newElite = { ...this.elite };
+
+        Object.keys(newElite).forEach((key) => {
+          if (key.includes('confirmed')) {
+            if (typeof newElite[key] !== 'boolean') {
+              newElite[key] = newElite[key] === 'accepted' ? true : false;
+            }
+          }
+        });
+
         this.$toasts.toast({
           id: 'update-toast',
           title: this.$t('toast.success_title'),
@@ -200,7 +210,7 @@
           await this.onSavePicture();
         }
 
-        await this.updateElite(this.$data);
+        await this.updateElite({ elite: newElite });
         const eliteId = this.$router.currentRoute.params.id;
         await this.fetchElites(eliteId);
       },

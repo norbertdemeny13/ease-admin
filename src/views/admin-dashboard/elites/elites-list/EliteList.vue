@@ -72,6 +72,24 @@
           </b-badge>
         </template>
 
+        <!-- Column: Pending Documents -->
+        <template #cell(pending_services)="data">
+          <feather-icon
+            icon="CircleIcon"
+            size="16"
+            :class="`align-middle text-body ${data.item.pending_services ? 'pending' : 'accepted'}`"
+          />
+        </template>
+
+        <!-- Column: Pending Documents -->
+        <template #cell(pending_documents)="data">
+          <feather-icon
+            icon="CircleIcon"
+            size="16"
+            :class="`align-middle text-body ${data.item.pending_documents ? 'pending' : 'accepted'}`"
+          />
+        </template>
+
         <!-- Column: Actions -->
         <template #cell(actions)="data">
           <b-dropdown
@@ -371,6 +389,18 @@
 <style lang="scss" scoped>
 .per-page-selector {
   width: 90px;
+}
+
+.pending {
+  background-color: #ff9f43 !important;
+  color: #ff9f43 !important;
+  border-radius: 50%;
+}
+
+.accepted {
+  background-color: #28c76f !important;
+  color: #28c76f !important;
+  border-radius: 50%;
 }
 </style>
 

@@ -1,35 +1,61 @@
 <!-- eslint-disable -->
 <template>
   <b-form>
-    <b-row>
+    <b-row class="mt-1">
+
+      <!-- Field: Nume Companie -->
       <b-col
-        v-for="socialField in socialInputs"
-        :key="socialField.dataField"
         cols="12"
         md="6"
         lg="4"
       >
         <b-form-group
-          :label="socialField.label"
-          :label-for="socialField.dataField"
+          label="Nume Companie"
+          label-for="company"
         >
-          <b-input-group class="input-group-merge">
-            <b-input-group-prepend is-text>
-              <feather-icon
-                size="16"
-                :icon="socialField.icon"
-              />
-            </b-input-group-prepend>
-            <b-form-input
-              :id="socialField.dataField"
-              v-model="userDataSocial[socialField.dataField]"
-              type="url"
-            />
-          </b-input-group>
+          <b-form-input
+            id="company"
+            v-model="userData.company_name"
+          />
         </b-form-group>
       </b-col>
 
-      <b-col class="mt-2">
+      <!-- Field: Address Line 2 -->
+      <b-col
+        cols="12"
+        md="6"
+        lg="4"
+      >
+        <b-form-group
+          label="CIF"
+          label-for="cif_number"
+        >
+          <b-form-input
+            id="cif_number"
+            v-model="userData.cif_number"
+          />
+        </b-form-group>
+      </b-col>
+
+      <!-- Field: Postcode -->
+      <b-col
+        cols="12"
+        md="6"
+        lg="4"
+      >
+        <b-form-group
+          label="Nr. Inregistrare"
+          label-for="registration_number"
+        >
+          <b-form-input
+            id="registration_number"
+            v-model="userData.registration_number"
+          />
+        </b-form-group>
+      </b-col>
+    </b-row>
+    <b-row class="mt-2">
+      <b-col>
         <b-button
           variant="primary"
           class="mb-1 mb-sm-0 mr-0 mr-sm-1"
@@ -41,8 +67,9 @@
         <b-button
           variant="outline-secondary"
           :block="$store.getters['app/currentBreakPoint'] === 'xs'"
+          @click="$router.push({ name: 'admin-elite-view', params: { id: userData.id } })"
         >
-          Reset
+          Back
         </b-button>
       </b-col>
     </b-row>
@@ -59,54 +86,11 @@
     components: {
       BRow, BCol, BForm, BFormGroup, BFormInput, BButton, BInputGroup, BInputGroupPrepend,
     },
-    setup() {
-      const userDataSocial = {
-        twitter: 'https://www.twitter.com/adoptionism744',
-        facebook: 'https://www.facebook.com/adoptionism664',
-        instagram: 'https://www.instagram.com/adopt-ionism744',
-        github: 'https://www.github.com/madop818',
-        codepen: 'https://www.codepen.com/adoptism243',
-        slack: '@adoptionism744',
-      }
-
-      // ? dataField is field name of `userDataSocial` object
-      const socialInputs = [
-        {
-          icon: 'TwitterIcon',
-          dataField: 'twitter',
-          label: 'Twitter',
-        },
-        {
-          icon: 'FacebookIcon',
-          dataField: 'facebook',
-          label: 'facebook',
-        },
-        {
-          icon: 'InstagramIcon',
-          dataField: 'instagram',
-          label: 'instagram',
-        },
-        {
-          icon: 'GithubIcon',
-          dataField: 'github',
-          label: 'github',
-        },
-        {
-          icon: 'CodepenIcon',
-          dataField: 'codepen',
-          label: 'codepen',
-        },
-        {
-          icon: 'SlackIcon',
-          dataField: 'slack',
-          label: 'slack',
-        },
-      ]
-
-      return {
-        userDataSocial,
-        socialInputs,
-      }
+    props: {
+      userData: {
+        type: Object,
+        required: true,
+      },
     },
   }
 </script>

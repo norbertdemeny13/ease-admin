@@ -44,8 +44,9 @@
         <b-button
           variant="outline-secondary"
           class="ml-1"
+          @click="$router.push({ name: 'admin-elite-view', params: { id: userData.id } })"
         >
-          <span class="d-none d-sm-inline">Remove</span>
+          <span class="d-none d-sm-inline">Back</span>
           <feather-icon
             icon="TrashIcon"
             class="d-inline d-sm-none"
@@ -64,12 +65,12 @@
           md="4"
         >
           <b-form-group
-            label="Nume complet"
-            label-for="full_name"
+            label="Nume profil"
+            label-for="display_name"
           >
             <b-form-input
-              id="full_name"
-              v-model="userData.full_name"
+              id="display_name"
+              v-model="userData.display_name"
             />
           </b-form-group>
         </b-col>
@@ -80,12 +81,12 @@
           md="4"
         >
           <b-form-group
-            label="Nume afisat"
-            label-for="display-name"
+            label="Limbi vorbite"
+            label-for="language"
           >
             <b-form-input
-              id="display-name"
-              v-model="userData.display_name"
+              id="language"
+              v-model="userData.language"
             />
           </b-form-group>
         </b-col>
@@ -96,13 +97,12 @@
           md="4"
         >
           <b-form-group
-            label="Email"
-            label-for="email"
+            label="Bio"
+            label-for="bio"
           >
             <b-form-input
-              id="email"
-              v-model="userData.email"
-              type="email"
+              id="bio"
+              v-model="userData.bio"
             />
           </b-form-group>
         </b-col>
@@ -153,12 +153,12 @@
           md="4"
         >
           <b-form-group
-            label="Nume companie"
-            label-for="company"
+            label="Certificari"
+            label-for="certificates"
           >
             <b-form-input
-              id="company"
-              v-model="userData.company_name"
+              id="certificates"
+              v-model="userData.certificates"
             />
           </b-form-group>
         </b-col>

@@ -24,8 +24,8 @@
           lg="4"
         >
           <b-form-group
-            label="Birth Date"
-            label-for="birth-date"
+            label="Inceput profesie"
+            label-for="datepicker-default"
           >
             <es-datepicker
               :options="{
@@ -52,12 +52,12 @@
           lg="4"
         >
           <b-form-group
-            label="Mobile"
-            label-for="mobile"
+            label="Telefon"
+            label-for="phone_number"
           >
             <b-form-input
-              id="mobile"
-              v-model="userDataInfo.mobile"
+              id="phone_number"
+              v-model="userDataInfo.phone_number"
             />
           </b-form-group>
         </b-col>
@@ -79,62 +79,6 @@
           </b-form-group>
         </b-col>
 
-        <!-- Field: Language -->
-        <b-col
-          cols="12"
-          md="6"
-          lg="4"
-        >
-          <b-form-group
-            label="Language"
-            label-for="language"
-          >
-            <b-form-input
-              id="email"
-              v-model="userData.languages"
-              type="email"
-            />
-          </b-form-group>
-        </b-col>
-
-        <!-- Field: Gender -->
-        <b-col
-          cols="12"
-          md="6"
-          lg="4"
-        >
-          <b-form-group
-            label="Gender"
-            label-for="gender"
-            label-class="mb-1"
-          >
-            <b-form-radio-group
-              id="gender"
-              v-model="userData.gender"
-              :options="genderOptions"
-              value="male"
-            />
-          </b-form-group>
-        </b-col>
-
-        <!-- Field: Contact Options -->
-        <b-col
-          cols="12"
-          md="6"
-          lg="4"
-        >
-          <b-form-group
-            label="Contact Options"
-            label-for="contact-options"
-            label-class="mb-1"
-          >
-            <b-form-checkbox-group
-              id="contact-options"
-              v-model="userDataInfo.contactOptions"
-              :options="contactOptionsOptions"
-            />
-          </b-form-group>
-        </b-col>
       </b-row>
 
       <!-- Header: Personal Info -->
@@ -175,13 +119,12 @@
           lg="4"
         >
           <b-form-group
-            label="Address Line 2"
-            label-for="address-line-2"
+            label="Cod Postal"
+            label-for="postal_code"
           >
             <b-form-input
-              id="address-line-2"
-              v-model="userData.working_city_name"
-              placeholder="Alege un oras"
+              id="postal_code"
+              v-model="userData.postal_code"
             />
           </b-form-group>
         </b-col>
@@ -193,67 +136,12 @@
           lg="4"
         >
           <b-form-group
-            label="Postcode"
-            label-for="postcode"
-          >
-            <b-form-input
-              id="postcode"
-              v-model="userData.postal_code"
-              type="number"
-              placeholder="597626"
-            />
-          </b-form-group>
-        </b-col>
-
-        <!-- Field: City -->
-        <b-col
-          cols="12"
-          md="6"
-          lg="4"
-        >
-          <b-form-group
-            label="City"
+            label="Oras"
             label-for="city"
           >
             <b-form-input
               id="city"
-              v-model="userDataInfo.city"
-            />
-          </b-form-group>
-        </b-col>
-
-        <!-- Field: State -->
-        <b-col
-          cols="12"
-          md="6"
-          lg="4"
-        >
-          <b-form-group
-            label="State"
-            label-for="state"
-          >
-            <b-form-input
-              id="state"
-              v-model="userDataInfo.state"
-              placeholder="Manhattan"
-            />
-          </b-form-group>
-        </b-col>
-
-        <!-- Field: Country -->
-        <b-col
-          cols="12"
-          md="6"
-          lg="4"
-        >
-          <b-form-group
-            label="Country"
-            label-for="country"
-          >
-            <b-form-input
-              id="country"
-              v-model="userDataInfo.country"
-              placeholder="United States"
+              v-model="userData.city"
             />
           </b-form-group>
         </b-col>
@@ -272,8 +160,9 @@
           <b-button
             variant="outline-secondary"
             :block="$store.getters['app/currentBreakPoint'] === 'xs'"
+            @click="$router.push({ name: 'admin-elite-view', params: { id: userData.id } })"
           >
-            Reset
+            Back
           </b-button>
         </b-col>
       </b-row>

@@ -40,7 +40,7 @@
         <b-col
           cols="12"
           md="4"
-          class="mb-md-0 mb-2"
+          class="mb-md-0 mb-2 d-flex align-items-end"
         >
           <!-- group -->
           <b-dropdown

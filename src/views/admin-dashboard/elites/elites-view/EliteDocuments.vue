@@ -1,6 +1,43 @@
 <template>
   <b-card :title="$t('views.pro_dashboard.documents')">
     <div class="d-flex mt-2">
+      <es-custom-checkbox :checked="userData.avatar_confirmed" />
+      <div class="d-flex justify-content-between w-100">
+        <div class="document-type d-flex flex-column">
+          <h3>{{ $t('generic.interview_confirmed') }}</h3>
+        </div>
+        <div class="d-flex">
+          <div v-if="!disabled" class="media d-flex flex-column">
+            <b-form-checkbox
+              v-model="userData.interview_done"
+              class="custom-control-success"
+              switch
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="d-flex mt-2">
+      <es-custom-checkbox :checked="userData.avatar_confirmed" />
+      <div class="d-flex justify-content-between w-100">
+        <div class="document-type d-flex flex-column">
+          <h3>{{ $t('views.pro_dashboard.avatar') }}</h3>
+          <div v-if="userData.avatar" class="documents-container">
+            <p class="info text-secondary"><a :href="userData.avatar.url" target="_blank" download>{{ userData.avatar.url }}</a></p>
+          </div>
+        </div>
+        <div class="d-flex">
+          <div v-if="!disabled" class="media d-flex flex-column">
+            <b-form-checkbox
+              v-model="isAvatarConfirmed"
+              class="custom-control-success"
+              switch
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="d-flex mt-2">
       <es-custom-checkbox :checked="userData.certificate_of_calification_confirmed" />
       <div class="d-flex justify-content-between w-100">
         <div class="document-type d-flex flex-column">
@@ -12,9 +49,6 @@
         </div>
         <div class="d-flex">
           <div v-if="!disabled" class="media d-flex flex-column">
-            <h6 class="font-weight-bolder mr-auto mb-0">
-              Accept
-            </h6>
             <b-form-checkbox
               v-model="isCertificateOfCalificationConfirmed"
               class="custom-control-success"
@@ -36,9 +70,6 @@
         </div>
         <div class="d-flex">
           <div v-if="!disabled" class="media d-flex flex-column">
-            <h6 class="font-weight-bolder mr-auto mb-0">
-              Accept
-            </h6>
             <b-form-checkbox
               v-model="isIdCardConfirmed"
               class="custom-control-success"
@@ -60,9 +91,6 @@
         </div>
         <div class="d-flex">
           <div v-if="!disabled" class="media d-flex flex-column">
-            <h6 class="font-weight-bolder mr-auto mb-0">
-              Accept
-            </h6>
             <b-form-checkbox
               v-model="isCertificateOfRegistrationConfirmed"
               class="custom-control-success"
@@ -84,9 +112,6 @@
         </div>
         <div class="d-flex">
           <div v-if="!disabled" class="media d-flex flex-column">
-            <h6 class="font-weight-bolder mr-auto mb-0">
-              Accept
-            </h6>
             <b-form-checkbox
               v-model="isPracticeInsuranceConfirmed"
               class="custom-control-success"
@@ -108,9 +133,6 @@
         </div>
         <div class="d-flex">
           <div v-if="!disabled" class="media d-flex flex-column">
-            <h6 class="font-weight-bolder mr-auto mb-0">
-              Accept
-            </h6>
             <b-form-checkbox
               v-model="isCriminalRecordConfirmed"
               class="custom-control-success"
@@ -132,9 +154,6 @@
         </div>
         <div class="d-flex">
           <div v-if="!disabled" class="media d-flex flex-column">
-            <h6 class="font-weight-bolder mr-auto mb-0">
-              Accept
-            </h6>
             <b-form-checkbox
               v-model="    isEquipmentPhotosConfirmed"
               class="custom-control-success"
@@ -226,7 +245,7 @@
       },
       isCertificateOfCalificationConfirmed: {
         get() {
-          return this.user.certificate_of_calification_confirmed === 'accepted';
+          return this.userData.certificate_of_calification_confirmed === 'accepted';
         },
         set(newVal) {
           this.user.certificate_of_calification_confirmed = newVal;
@@ -262,6 +281,14 @@
         },
         set(newVal) {
           this.user.criminal_record_confirmed = newVal;
+        },
+      },
+      isAvatarConfirmed: {
+        get() {
+          return this.userData.avatar_confirmed === 'accepted';
+        },
+        set(newVal) {
+          this.user.avatar_confirmed = newVal;
         },
       },
       isEquipmentPhotosConfirmed: {

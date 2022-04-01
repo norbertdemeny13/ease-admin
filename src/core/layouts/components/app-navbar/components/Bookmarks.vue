@@ -89,7 +89,7 @@
   import { ref, watch } from '@vue/composition-api';
   import { router } from '@/router';
   import store from '@/store';
-  import searchAndBookmarkData from '../search-and-bookmark-data';
+  import searchAndBookmarkData from '../header-data';
 
   export default {
     components: {
