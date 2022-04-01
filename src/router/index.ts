@@ -20,7 +20,7 @@ const routes: Array<RouteConfig> = [
     component: () => import('@/views/admin-dashboard').then(({ AdminDashboard }) => AdminDashboard),
     children: [
       // *===============================================---*
-      // *--------- USER ---- ---------------------------------------*
+      // *--------- Elite ---- ---------------------------------------*
       // *===============================================---*
       {
         path: 'profesionisti',
@@ -36,6 +36,19 @@ const routes: Array<RouteConfig> = [
         path: 'profesionisti/edit/:id',
         name: 'admin-elite-edit',
         component: () => import('@/views/admin-dashboard/elites/elites-edit/EliteEdit.vue'),
+      },
+      // *===============================================---*
+      // *--------- Client ---- ---------------------------------------*
+      // *===============================================---*
+      {
+        path: 'client',
+        name: 'admin-client-list',
+        component: () => import('@/views/admin-dashboard/clients/client-list/ClientList.vue'),
+      },
+      {
+        path: 'client/view/:id',
+        name: 'admin-client-view',
+        component: () => import('@/views/admin-dashboard/clients/client-view/ClientView.vue'),
       },
     ],
   },

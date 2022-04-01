@@ -8,7 +8,9 @@ import { store } from '@/store';
 
 export interface State extends ModuleState {
   isFetching: boolean;
+  clients: [];
   elites: [];
+  selectedClient: any;
   selectedElite: any;
 }
 
@@ -18,6 +20,10 @@ export default {
   state: () => ({
     isFetching: false,
     elites: [],
+    clients: [],
+    selectedClient: {
+      id: '',
+    },
     selectedElite: {
       id: '',
     },
@@ -44,11 +50,35 @@ export default {
         Vue.set(state, 'isFetching', false);
       }
     },
+    async fetchClients({ state }, params) {
+      Vue.set(state, 'isFetching', true);
+      let qs = Object.keys(params)
+        .filter(key => params[key])
+        .filter(key => key !== 'serviceIds')
+        .map(key => `${key}=${params[key]}`)
+        .join('&');
+
+      try {
+        const { data } = await api.find(`/admin/users?${qs}`);
+        Vue.set(state, 'clients', data);
+      } finally {
+        Vue.set(state, 'isFetching', false);
+      }
+    },
     async fetchElite({ state }, id) {
       Vue.set(state, 'isFetching', true);
       try {
         const { data } = await api.find(`/admin/elites/${id}`);
         Vue.set(state, 'selectedElite', data);
+      } finally {
+        Vue.set(state, 'isFetching', false);
+      }
+    },
+    async fetchUser({ state }, id) {
+      Vue.set(state, 'isFetching', true);
+      try {
+        const { data } = await api.find(`/admin/users/${id}`);
+        Vue.set(state, 'selectedClient', data);
       } finally {
         Vue.set(state, 'isFetching', false);
       }
@@ -97,7 +127,9 @@ export default {
 
   getters: {
     isFetching: state => state.isFetching,
+    getClients: state => state.clients,
     getElites: state => state.elites,
+    getSelectedClient: state => state.selectedClient,
     getSelectedElite: state => state.selectedElite,
   } as GetterTree<State, RootState>,
 

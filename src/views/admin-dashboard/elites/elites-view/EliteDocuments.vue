@@ -173,15 +173,6 @@
       </div>
     </div>
     <div class="d-flex mt-2">
-      <es-custom-checkbox :checked="userData.interview_done" />
-      <div class="d-flex justify-content-between w-100">
-        <div class="document-type d-flex flex-column">
-          <h3>{{ $t('views.pro_dashboard.interview') }}</h3>
-          <p>{{ $t('views.pro_dashboard.interview_info') }}</p>
-        </div>
-      </div>
-    </div>
-    <div class="d-flex mt-2">
       <es-custom-checkbox :checked="userData.stripe_account_created" />
       <div class="d-flex justify-content-between w-100">
         <div class="document-type d-flex flex-column">

@@ -130,18 +130,6 @@
               {{ userData.phone_number }}
             </td>
           </tr>
-          <tr>
-            <th class="pb-50">
-              <feather-icon
-                icon="InfoIcon"
-                class="mr-75"
-              />
-              <span class="font-weight-bold">Gender</span>
-            </th>
-            <td class="pb-50">
-              {{ userData.gender }}
-            </td>
-          </tr>
         </table>
       </b-col>
     </b-row>
@@ -154,7 +142,7 @@
     BCard, BButton, BAvatar, BRow, BCol,
   } from 'bootstrap-vue'
   import { avatarText } from '@/core/utils/filter'
-  import useUsersList from '../elites-list/useElitesList'
+  import useUsersList from '../client-list/useClientsList'
 
   export default {
     components: {
