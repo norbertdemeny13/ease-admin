@@ -7,35 +7,24 @@
     </b-card-header>
     <b-card-body>
       <b-row>
+        <!-- Search -->
         <b-col
           cols="12"
-          md="4"
-          class="mb-md-0 mb-2"
+          md="6"
         >
-          <label>City</label>
-          <v-select
-            :dir="$store.state.appConfig.isRTL ? 'rtl' : 'ltr'"
-            :value="cityFilter"
-            :options="cityOptions"
-            class="w-100"
-            :reduce="val => val.value"
-            @input="(val) => $emit('update:cityFilter', val)"
-          />
-        </b-col>
-        <b-col
-          cols="12"
-          md="4"
-          class="mb-md-0 mb-2"
-        >
-          <label>Status</label>
-          <v-select
-            :dir="$store.state.appConfig.isRTL ? 'rtl' : 'ltr'"
-            :value="statusFilter"
-            :options="statusOptions"
-            class="w-100"
-            :reduce="val => val.value"
-            @input="(val) => $emit('update:statusFilter', val)"
-          />
+          <div class="d-flex align-items-center justify-content-end">
+            <b-form-input
+              v-model="searchQuery"
+              class="d-inline-block mr-1"
+              placeholder="Search..."
+            />
+            <b-button
+              variant="primary"
+              @click="isAddNewUserSidebarActive = true"
+            >
+              <span class="text-nowrap">Add User</span>
+            </b-button>
+          </div>
         </b-col>
       </b-row>
     </b-card-body>
@@ -56,6 +45,8 @@
     BDropdownDivider,
     BDropdownForm,
     BDropdownGroup,
+    BFormInput,
+    BButton,
   } from 'bootstrap-vue'
   import vSelect from 'vue-select';
   import Ripple from 'vue-ripple-directive';
@@ -74,6 +65,8 @@
       BDropdownDivider,
       BDropdownForm,
       BDropdownGroup,
+      BFormInput,
+      BButton,
     },
     props: {
       serviceFilter: {
@@ -104,6 +97,9 @@
     directives: {
       Ripple,
     },
+    data: () => ({
+      searchQuery: '',
+    }),
     computed: {
       servicesList() {
         const filteredServices = this.services
@@ -112,23 +108,6 @@
             ...item,
             id: item.category,
           }));
-        return filteredServices;
-      },
-    },
-    methods: {
-      onAddService(item) {
-        const index = this.serviceIds.indexOf(item.id);
-        if (index > -1) {
-          this.serviceIds.splice(index, 1);
-        } else {
-          this.serviceIds.push(item.id);
-        }
-      },
-      getMassageServices(services, elitesRequired) {
-        const filteredServices = {
-          ...services,
-          services: services.services.filter(service => service.elites_required === elitesRequired),
-        };
         return filteredServices;
       },
     },

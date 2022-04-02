@@ -230,7 +230,13 @@
       }),
       deleteReview(id) {
         const eliteId = this.$router.currentRoute.params.id;
-        this.removeEliteReview({ eliteId, reviewId: id  });
+        this.$bvModal
+          .msgBoxConfirm('Are you sure you want to remove the review?', {
+            cancelVariant: 'outline-secondary',
+          })
+          .then(value => {
+            this.removeEliteReview({ eliteId, reviewId: id  });
+          })
       },
     },
   }
@@ -256,4 +262,8 @@
 
 <style lang="scss">
   @import '@/core/scss/vue/libs/vue-select.scss';
+
+  .modal-footer {
+    background: transparent;
+  }
 </style>

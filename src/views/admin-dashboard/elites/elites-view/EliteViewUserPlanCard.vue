@@ -5,28 +5,58 @@
   >
     <b-card-header class="d-flex justify-content-between align-items-center pt-75 pb-25">
       <h4 class="mb-0">
-        Companie
+        {{ userData.company_name || '-' }}
       </h4>
     </b-card-header>
 
     <b-card-body>
-      <ul class="list-unstyled my-1">
-        <li>
-          <h5 class="mb-0">Nume: <span class="align-middle">{{ userData.company_name || '-' }}</span></h5>
-        </li>
-        <li class="my-25">
-          <h5 class="mb-0">CIF: <span class="align-middle">{{ userData.cif_number || '-' }}</span></h5>
-        </li>
-        <li class="my-25">
-          <h5 class="mb-0">Registration Nr.: <span class="align-middle">{{ userData.registration_number || '-' }}</span></h5>
-        </li>
-        <li class="my-25">
-          <h5 class="mb-0">Heard from: <span class="align-middle">{{ userData.heard_from || '-' }}</span></h5>
-        </li>
-        <li>
-          <h5 class="mb-0">Expected salary: <span class="align-middle">{{ userData.expected_salary || '-' }}</span></h5>
-        </li>
-      </ul>
+      <b-col
+        cols="12"
+        xl="6"
+      >
+        <table class="mt-2 mt-xl-0 w-60">
+          <tr>
+            <th class="pb-50">
+              <span class="font-weight-bold">CIF</span>
+            </th>
+            <td class="pb-50">
+              {{ userData.cif || '-' }}
+            </td>
+          </tr>
+          <tr>
+            <th class="pb-50">
+              <span class="font-weight-bold">Registration Nr.</span>
+            </th>
+            <td class="pb-50 text-capitalize">
+              {{ userData.registration_number || '-' }}
+            </td>
+          </tr>
+          <tr>
+            <th class="pb-50">
+              <span class="font-weight-bold">City</span>
+            </th>
+            <td class="pb-50 text-capitalize">
+              {{ userData.working_city_name }}
+            </td>
+          </tr>
+          <tr>
+            <th class="pb-50">
+              <span class="font-weight-bold">Hear From</span>
+            </th>
+            <td class="pb-50">
+              {{ userData.heard_from || '-' }}
+            </td>
+          </tr>
+          <tr>
+            <th class="pb-50">
+              <span class="font-weight-bold">Expected Salary</span>
+            </th>
+            <td class="pb-50">
+              {{ userData.expected_salary || '-' }}
+            </td>
+          </tr>
+        </table>
+      </b-col>
     </b-card-body>
   </b-card>
 </template>
@@ -34,7 +64,7 @@
 <script>
   /* eslint-disable */
   import {
-    BCard, BCardHeader, BCardBody, BBadge, BButton,
+    BCard, BCardHeader, BCardBody, BCol, BBadge, BButton,
   } from 'bootstrap-vue'
   import Ripple from 'vue-ripple-directive'
 
@@ -52,6 +82,7 @@
       BCard,
       BCardHeader,
       BCardBody,
+      BCol,
       BBadge,
       BButton,
     },

@@ -107,6 +107,7 @@
   import router from '@/router';
   import store from '@/store';
   import { isEqual } from 'lodash-es';
+  import { getUtcToZonedTime } from '@/utils/date-helpers';
   import EliteServices from '../elites-view/EliteServices';
   import EliteDocuments from '../elites-view/EliteDocuments';
   import userStoreModule from '../eliteStoreModule';
@@ -161,10 +162,11 @@
     },
 
     watch: {
-      getSelectedElite(newVal, oldVal) {
-        if(!isEqual(newVal, oldVal)) {
+      getSelectedElite: {
+        handler(newVal) {
           this.elite = { ...this.elite, ...newVal };
-        }
+        },
+        deep: true,
       },
     },
 
@@ -198,6 +200,8 @@
             }
           }
         });
+
+        newElite.started_working_at = getUtcToZonedTime(newElite.started_working_at).toDateString();
 
         this.$toasts.toast({
           id: 'update-toast',

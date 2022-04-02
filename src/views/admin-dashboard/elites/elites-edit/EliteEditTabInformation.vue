@@ -34,7 +34,7 @@
             >
               <input
                 id="datepicker-default"
-                v-model="userData.started_working_at"
+                v-model="started_working_at"
                 class="datepicker-input"
                 name="datepicker-default"
                 type="text"
@@ -57,7 +57,7 @@
           >
             <b-form-input
               id="phone_number"
-              v-model="userDataInfo.phone_number"
+              v-model="userData.phone_number"
             />
           </b-form-group>
         </b-col>
@@ -74,7 +74,7 @@
           >
             <b-form-input
               id="website"
-              v-model="userDataInfo.website"
+              v-model="userData.website"
             />
           </b-form-group>
         </b-col>
@@ -190,45 +190,15 @@
         required: true,
       },
     },
-    setup() {
-      const userDataInfo = ref({
-        dob: null,
-        mobile: '+6595895857',
-        website: 'https://rowboat.com/insititious/Angelo',
-        language: 'French',
-        gender: 'female',
-        contactOptions: ['Email', 'Message'],
-        addressLine1: 'A-65, Belvedere Streets',
-        addressLine2: '',
-        postcode: '',
-        city: 'New York',
-        state: '',
-        country: '',
-      })
 
-      const languageOptions = [
-        'English',
-        'Spanish',
-        'French',
-        'Russian',
-        'German',
-        'Arabic',
-        'Sanskrit',
-      ]
+    data: () => ({
+      started_working_at: '',
+    }),
 
-      const genderOptions = [
-        { text: 'Male', value: 'male' },
-        { text: 'Female', value: 'female' },
-      ]
-
-      const contactOptionsOptions = ['Email', 'Message', 'Phone']
-
-      return {
-        userDataInfo,
-        languageOptions,
-        genderOptions,
-        contactOptionsOptions,
-      }
+    watch: {
+      started_working_at(newVal) {
+        this.userData.started_working_at = newVal;
+      },
     },
   }
 </script>

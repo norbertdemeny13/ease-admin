@@ -81,7 +81,7 @@
         cols="12"
         xl="6"
       >
-        <table class="mt-2 mt-xl-0 w-100">
+        <table class="mt-2 mt-xl-0 w-60">
           <tr>
             <th class="pb-50">
               <feather-icon
@@ -91,7 +91,7 @@
               <span class="font-weight-bold">Id</span>
             </th>
             <td class="pb-50">
-              {{ userData.id }}
+              {{ userData.elite_id || '-' }}
             </td>
           </tr>
           <tr>

@@ -1,7 +1,7 @@
 <template>
   <b-card :title="$t('views.pro_dashboard.documents')">
     <div class="d-flex mt-2">
-      <es-custom-checkbox :checked="userData.avatar_confirmed" />
+      <es-custom-checkbox :checked="userData.interview_done" />
       <div class="d-flex justify-content-between w-100">
         <div class="document-type d-flex flex-column">
           <h3>{{ $t('generic.interview_confirmed') }}</h3>
@@ -63,7 +63,6 @@
       <div class="d-flex justify-content-between w-100">
         <div class="document-type d-flex flex-column">
           <h3>{{ $t('views.pro_dashboard.identity_card') }}</h3>
-          <p>{{ $t('views.pro_dashboard.identity_card_info') }}</p>
           <div v-if="userData.id_card && userData.id_card.length" class="documents-container">
             <p v-for="(file, i) in userData.id_card" :key="file.id" class="info text-secondary"><a :href="file.url" target="_blank" download>{{ file.filename }}</a><span class="delete-btn ml-4" @click="onRemove('id_card', i)"></span></p>
           </div>

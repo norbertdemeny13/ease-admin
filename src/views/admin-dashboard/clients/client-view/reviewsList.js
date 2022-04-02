@@ -17,7 +17,9 @@ export default function useInvoicesList() {
     { key: 'user_id', sortable: true },
     { key: 'review', sortable: true },
     { key: 'created_at', formatter: (val) => getZonedDateTime(val), sortable: true },
-    { key: 'average', sortable: true },
+    { key: 'start_time', formatter: (val) => getZonedDateTime(val), sortable: true },
+    { key: 'end_time', formatter: (val) => getZonedDateTime(val), sortable: true },
+    { key: 'total', formatter: (val) => `${val} Lei`, sortable: true },
     { key: 'actions' },
   ]
   const perPage = ref(10)

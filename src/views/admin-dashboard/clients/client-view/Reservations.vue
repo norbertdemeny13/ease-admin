@@ -17,7 +17,7 @@
           md="6"
           class="d-flex align-items-center justify-content-start mb-1 mb-md-0"
         >
-          <h4>Reviews</h4>
+          <h4>Servicii</h4>
         </b-col>
       </b-row>
 
@@ -25,7 +25,7 @@
 
     <b-table
       ref="refInvoiceListTable"
-      :items="reviews"
+      :items="reservations"
       responsive
       :fields="tableColumns"
       primary-key="id"
@@ -36,21 +36,9 @@
       class="position-relative"
     >
 
-      <template #head(invoiceStatus)>
-        <feather-icon
-          icon="TrendingUpIcon"
-          class="mx-auto"
-        />
-      </template>
-
       <!-- Column: Id -->
       <template #cell(id)="data">
-        <b-link
-          :to="{ name: 'apps-invoice-preview', params: { id: data.item.id }}"
-          class="font-weight-bold"
-        >
-          #{{ data.value }}
-        </b-link>
+        #{{ data.value }}
       </template>
 
       <!-- Column: Client -->
@@ -72,17 +60,31 @@
       <!-- Column: Actions -->
       <template #cell(actions)="data">
 
-        <div class="text-nowrap" @click="deleteReview(data.item.id)">
+        <div class="text-nowrap" @click="onRefund(data.item.id)">
           <feather-icon
-            :id="`review-row-${data.item.id}-delete-icon`"
-            icon="TrashIcon"
+            :id="`review-row-${data.item.id}-refund-icon`"
+            icon="RefreshCwIcon"
             size="16"
             class="align-middle text-body"
           />
           <b-tooltip
-            title="Remove review"
+            title="Refund"
             class="cursor-pointer"
-            :target="`review-row-${data.item.id}-delete-icon`"
+            :target="`review-row-${data.item.id}-refund-icon`"
+          />
+        </div>
+
+        <div class="text-nowrap" @click="onCancel(data.item.id)">
+          <feather-icon
+            :id="`review-row-${data.item.id}-cancel-icon`"
+            icon="SlashIcon"
+            size="16"
+            class="align-middle text-body"
+          />
+          <b-tooltip
+            title="Cancel"
+            class="cursor-pointer"
+            :target="`review-row-${data.item.id}-cancel-icon`"
           />
         </div>
       </template>
@@ -170,7 +172,7 @@
       vSelect,
     },
     props: {
-      reviews: Array,
+      reservations: Array,
     },
     setup() {
       const statusOptions = [
@@ -228,9 +230,13 @@
       ...mapActions({
         removeEliteReview: 'admin/removeEliteReview',
       }),
-      deleteReview(id) {
-        const eliteId = this.$router.currentRoute.params.id;
-        this.removeEliteReview({ eliteId, reviewId: id  });
+      onCancel(id) {
+        // const eliteId = this.$router.currentRoute.params.id;
+        // this.removeEliteReview({ eliteId, reviewId: id  });
+      },
+      onRefund(id) {
+        // const eliteId = this.$router.currentRoute.params.id;
+        // this.removeEliteReview({ eliteId, reviewId: id  });
       },
     },
   }

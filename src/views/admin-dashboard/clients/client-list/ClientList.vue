@@ -27,7 +27,7 @@
       <b-table
         ref="refUserListTable"
         class="position-relative"
-        :items="elites"
+        :items="clients"
         responsive
         :fields="tableColumns"
         primary-key="id"
@@ -40,75 +40,36 @@
         <!-- Column: User -->
         <template #cell(user)="data">
           <b-media vertical-align="center">
+            <template #aside>
+              <figure>
+                <div class="item-header">
+                  <div class="item-logo">{{ getInitials(data.item) }}</div>
+                </div>
+              </figure>
+            </template>
             <b-link
               :to="{ name: 'admin-client-view', params: { id: data.item.id } }"
               class="font-weight-bold d-block text-nowrap"
             >
               {{ data.item.full_name }}
             </b-link>
-            <small class="text-muted">#{{ data.item.id }}</small>
+            <small class="text-muted">#{{ data.item.email }}</small>
           </b-media>
         </template>
 
-        <!-- Column: Status -->
-        <template #cell(status)="data">
-          <b-badge
-            pill
-            :variant="`light-${resolveUserStatusVariant(data.item.status)}`"
-            class="text-capitalize"
-          >
-            {{ data.item.status }}
-          </b-badge>
+        <!-- Column: Created At -->
+        <template #cell(total_spent)="data">
+          {{ data.item.total_spent ? `${data.item.total_spent} Lei` : '0' }}
         </template>
 
-        <!-- Column: Pending Documents -->
-        <template #cell(pending_services)="data">
-          <feather-icon
-            icon="CircleIcon"
-            size="16"
-            :class="`align-middle text-body ${data.item.pending_services ? 'pending' : 'accepted'}`"
-          />
+        <!-- Column: Created At -->
+        <template #cell(created_at)="data">
+          {{ data.item.created_at ? data.item.created_at.substr(0, 10) : '-' }}
         </template>
 
-        <!-- Column: Pending Documents -->
-        <template #cell(pending_documents)="data">
-          <feather-icon
-            icon="CircleIcon"
-            size="16"
-            :class="`align-middle text-body ${data.item.pending_documents ? 'pending' : 'accepted'}`"
-          />
-        </template>
-
-        <!-- Column: Actions -->
-        <template #cell(actions)="data">
-          <b-dropdown
-            variant="link"
-            no-caret
-            :right="$store.state.appConfig.isRTL"
-          >
-
-            <template #button-content>
-              <feather-icon
-                icon="MoreVerticalIcon"
-                size="16"
-                class="align-middle text-body"
-              />
-            </template>
-            <b-dropdown-item :to="{ name: 'admin-elite-view', params: { id: data.item.id } }">
-              <feather-icon icon="FileTextIcon" />
-              <span class="align-middle ml-50">Details</span>
-            </b-dropdown-item>
-
-            <b-dropdown-item :to="{ name: 'admin-elite-edit', params: { id: data.item.id } }">
-              <feather-icon icon="EditIcon" />
-              <span class="align-middle ml-50">Edit</span>
-            </b-dropdown-item>
-
-            <b-dropdown-item>
-              <feather-icon icon="TrashIcon" />
-              <span class="align-middle ml-50">Delete</span>
-            </b-dropdown-item>
-          </b-dropdown>
+        <!-- Column: Last Reservation -->
+        <template #cell(last_reservation_date)="data">
+          {{ data.item.last_reservation_date ? data.item.last_reservation_date.substr(0, 10) : '-' }}
         </template>
 
       </b-table>
@@ -230,10 +191,10 @@
       ...mapGetters({
         getClients: 'admin/getClients',
       }),
-      elites() {
-        const elites = this.getClients.items || [];
+      clients() {
+        const clients = this.getClients.items || [];
         const meta = this.getClients.pagy;
-        return elites.map(elite => ({ ...elite, working_city_name: this.$t(elite.working_city_name), }));
+        return clients.map(elite => ({ ...elite, working_city_name: this.$t(elite.working_city_name), }));
       },
       newDataModel() {
         return Object.assign({}, this.dataMeta);
@@ -259,6 +220,10 @@
       ...mapActions({
         fetchClients: 'admin/fetchClients',
       }),
+      getInitials(item) {
+        const firstNameI = item.full_name?.split(' ').map(n => n[0]).join('');
+        return `${firstNameI}`;
+      },
       setMeta(meta) {
         this.dataMeta = { 
           ...this.dataMeta,
@@ -367,6 +332,27 @@
   background-color: #28c76f !important;
   color: #28c76f !important;
   border-radius: 50%;
+}
+
+.item-header {
+  display: flex;
+}
+
+.item-logo {
+  background-color: rgba(115, 103, 240, 0.12);
+  color: #7367f0;
+  border-radius: 50%;
+  color: #000000;
+  display: flex;
+  font-size: 14px;
+  height: 35px;
+  justify-content: center;
+  width: 35px;
+  line-height: 34px;
+}
+
+span {
+  font-size: 1rem;
 }
 </style>
 

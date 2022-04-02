@@ -215,3 +215,9 @@
     }
   });
 </script>
+
+<style>
+i.indicator {
+  color: #7367f0 !important;
+}
+</style>

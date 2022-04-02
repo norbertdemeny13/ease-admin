@@ -114,11 +114,11 @@ export default {
         Vue.set(state, 'isFetching', false);
       }
     },
-    async removeEliteReview({ state }, { eliteId, reviewId }) {
+    async removeEliteReview({ dispatch, state }, { eliteId, reviewId }) {
       Vue.set(state, 'isFetching', true);
       try {
-        const { data } = await api.destroy(`/admin/elites/${eliteId}/delete_review/${reviewId}`);
-        // Vue.set(state, 'selectedElite', data);
+        await api.destroy(`/admin/elites/${eliteId}/delete_review/${reviewId}`);
+        dispatch('fetchElite', eliteId);
       } finally {
         Vue.set(state, 'isFetching', false);
       }

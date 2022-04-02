@@ -82,11 +82,11 @@
         >
           <b-form-group
             label="Limbi vorbite"
-            label-for="language"
+            label-for="languages"
           >
             <b-form-input
-              id="language"
-              v-model="userData.language"
+              id="languages"
+              v-model="userData.languages"
             />
           </b-form-group>
         </b-col>
@@ -136,13 +136,9 @@
             label="User City"
             label-for="user-city"
           >
-            <v-select
+            <b-form-input
+              id="user-city"
               v-model="userData.city"
-              :dir="$store.state.appConfig.isRTL ? 'rtl' : 'ltr'"
-              :options="cityOptions"
-              :reduce="val => val.value"
-              :clearable="false"
-              input-id="user-city"
             />
           </b-form-group>
         </b-col>

@@ -14,18 +14,11 @@ export default function useUsersList() {
 
   // Table Handlers
   const tableColumns = [
-    { key: 'user', label: 'Profesionist', sortable: true },
-    { key: 'working_city_name', label: 'Oras', sortable: true },
-    { key: 'jobs_count', label: 'Rezervari', sortable: true },
-    {
-      key: 'rating',
-      label: 'Rating',
-      formatter: title,
-      sortable: true,
-    },
-    { key: 'status', sortable: true },
-    { key: 'pending_services', label: 'Pending Service', sortable: false },
-    { key: 'pending_documents', label: 'Pending Documents', sortable: false },
+    { key: 'reservations_count', label: 'Rezervari', sortable: true },
+    { key: 'total_spent', label: 'Total cheltuieli', sortable: true },
+    { key: 'created_at', label: 'Cont creat', sortable: true },
+    { key: 'last_reservation_date', label: 'Ultima rezervare', sortable: false },
+    { key: 'flags_count', label: 'Atentionari', sortable: false },
   ]
 
   const perPage = ref(10)

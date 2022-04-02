@@ -5,7 +5,7 @@
   >
     <b-card-header class="d-flex justify-content-between align-items-center pt-75 pb-25">
       <h4 class="mb-0">
-        Companie
+        Abonament
       </h4>
     </b-card-header>
 

@@ -43,7 +43,7 @@
         </b-col>
       </b-row>
 
-      <reviews :reviews="getSelectedClient.reviews" />
+      <es-reservations :reservations="getSelectedClient.reservations" />
     </template>
 
   </div>
@@ -58,7 +58,7 @@
   import {
     BRow, BCol, BAlert, BLink,
   } from 'bootstrap-vue';
-  import Reviews from './Reviews';
+  import Reservations from './Reservations';
   import UserViewUserInfoCard from './ClientViewUserInfoCard.vue';
   import UserViewUserPlanCard from './ClientViewUserPlanCard.vue';
   import UserViewUserTimelineCard from './ClientViewUserTimelineCard.vue';
@@ -70,7 +70,7 @@
       BCol,
       BAlert,
       BLink,
-      'reviews': Reviews,
+      'es-reservations': Reservations,
       UserViewUserInfoCard,
       UserViewUserPlanCard,
       UserViewUserTimelineCard,
