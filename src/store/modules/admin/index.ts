@@ -10,6 +10,7 @@ export interface State extends ModuleState {
   isFetching: boolean;
   clients: [];
   elites: [];
+  promoCodes: [];
   selectedClient: any;
   selectedElite: any;
 }
@@ -21,6 +22,7 @@ export default {
     isFetching: false,
     elites: [],
     clients: [],
+    promoCodes: [],
     selectedClient: {
       id: '',
     },
@@ -61,6 +63,16 @@ export default {
       try {
         const { data } = await api.find(`/admin/users?${qs}`);
         Vue.set(state, 'clients', data);
+      } finally {
+        Vue.set(state, 'isFetching', false);
+      }
+    },
+    async fetchPromoCodes({ state }) {
+      Vue.set(state, 'isFetching', true);
+
+      try {
+        const { data } = await api.find('/admin/promo_codes');
+        Vue.set(state, 'promoCodes', data);
       } finally {
         Vue.set(state, 'isFetching', false);
       }
@@ -160,6 +172,7 @@ export default {
     isFetching: state => state.isFetching,
     getClients: state => state.clients,
     getElites: state => state.elites,
+    getPromoCodes: state => state.promoCodes,
     getSelectedClient: state => state.selectedClient,
     getSelectedElite: state => state.selectedElite,
   } as GetterTree<State, RootState>,

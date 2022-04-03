@@ -50,6 +50,14 @@ const routes: Array<RouteConfig> = [
         name: 'admin-client-view',
         component: () => import('@/views/admin-dashboard/clients/client-view/ClientView.vue'),
       },
+      // *===============================================---*
+      // *--------- Promo Codes ---- ---------------------------------------*
+      // *===============================================---*
+      {
+        path: 'promo-code',
+        name: 'admin-promo-code-list',
+        component: () => import('@/views/admin-dashboard/promo-codes/promo-code-list/PromoCodeList.vue'),
+      },
     ],
   },
 ];
