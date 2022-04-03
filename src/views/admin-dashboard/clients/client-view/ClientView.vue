@@ -43,7 +43,7 @@
         </b-col>
       </b-row>
 
-      <es-reservations :reservations="getSelectedClient.reservations" />
+      <es-reservations :reservations="getSelectedClient.reservations" :user-id="getSelectedClient.id" />
     </template>
 
   </div>

@@ -23,6 +23,14 @@
               </h4>
               <span class="card-text">{{ userData.email }}</span>
             </div>
+            <div class="d-flex flex-wrap">
+              <b-button
+                variant="primary"
+                v-b-modal.modal-credit
+              >
+                Add credit
+              </b-button>
+            </div>
           </div>
         </div>
 
@@ -123,13 +131,38 @@
         </table>
       </b-col>
     </b-row>
+
+    <!-- modal credit-->
+    <b-modal
+      id="modal-credit"
+      cancel-variant="outline-secondary"
+      ok-title="Adauga"
+      cancel-title="Inchide"
+      centered
+      title="Restituire serviciu"
+      @hide="credit = ''"
+      @ok="onAdd"
+    >
+      <b-form>
+        <b-form-group>
+          <label for="refund">Credit</label>
+          <b-form-input
+            id="refund"
+            v-model="credit"
+            placeholder="Introdu suma care urmeaza sa o adaugi"
+          />
+        </b-form-group>
+      </b-form>
+    </b-modal>
   </b-card>
 </template>
 
 <script>
   /* eslint-disable */
+  import { mapActions } from 'vuex';
   import {
     BCard, BButton, BAvatar, BRow, BCol,
+    BModal, BForm, BFormInput, BFormGroup,
   } from 'bootstrap-vue'
   import { avatarText } from '@/core/utils/filter'
   import useUsersList from '../client-list/useClientsList'
@@ -137,6 +170,7 @@
   export default {
     components: {
       BCard, BButton, BRow, BCol, BAvatar,
+      BModal, BForm, BFormInput, BFormGroup,
     },
     props: {
       userData: {
@@ -144,15 +178,25 @@
         required: true,
       },
     },
+    data: () => ({
+      credit: '',
+    }),
     computed: {
       getImageSource() {
         return this.userData?.avatar?.url;
       },
     },
     methods: {
+      ...mapActions({
+        onAddCredit: 'admin/onAddCredit',
+      }),
       getInitials(item) {
         const firstNameI = item.full_name?.split(' ').map(n => n[0]).join('');
         return `${firstNameI}`;
+      },
+      onAdd() {
+        const { credit } = this;
+        this.onAddCredit({ credit, clientId: this.userData.id });
       },
     },
     setup() {

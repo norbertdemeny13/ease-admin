@@ -195,6 +195,10 @@
       started_working_at: '',
     }),
 
+    created() {
+      this.started_working_at = this.userData.started_working_at;
+    },
+
     watch: {
       started_working_at(newVal) {
         this.userData.started_working_at = newVal;

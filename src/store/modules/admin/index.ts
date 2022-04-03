@@ -123,6 +123,37 @@ export default {
         Vue.set(state, 'isFetching', false);
       }
     },
+    async onReservationCancel({ dispatch, state }, { serviceId, clientId }) {
+      Vue.set(state, 'isFetching', true);
+      try {
+        await api.create(`admin/reservations/${serviceId}/cancel`);
+        dispatch('fetchUser', clientId);
+      } finally {
+        Vue.set(state, 'isFetching', false);
+      }
+    },
+    async onClientRefund({ dispatch, state }, { refund, serviceId, clientId }) {
+      Vue.set(state, 'isFetching', true);
+      try {
+        await api.create(`admin/reservations/${serviceId}/refund`, {
+          ...refund,
+        });
+        dispatch('fetchUser', clientId);
+      } finally {
+        Vue.set(state, 'isFetching', false);
+      }
+    },
+    async onAddCredit({ dispatch, state }, { credit, clientId }) {
+      Vue.set(state, 'isFetching', true);
+      try {
+        await api.create(`admin/users/${clientId}`, {
+          value: credit,
+        });
+        dispatch('fetchUser', clientId);
+      } finally {
+        Vue.set(state, 'isFetching', false);
+      }
+    },
   } as ActionTree<State, RootState>,
 
   getters: {

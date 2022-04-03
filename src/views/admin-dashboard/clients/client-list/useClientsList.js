@@ -16,7 +16,7 @@ export default function useUsersList() {
   const tableColumns = [
     { key: 'user', label: 'Clients', sortable: true },
     { key: 'reservations_count', label: 'Rezervari', sortable: true },
-    { key: 'total_spent', label: 'Total cheltuieli', sortable: true },
+    { key: 'total_spent', label: 'Total cheltuit', sortable: true },
     { key: 'created_at', label: 'Cont creat', sortable: true },
     { key: 'last_reservation_date', label: 'Ultima rezervare', sortable: false },
     { key: 'flags_count', label: 'Atentionari', sortable: false },

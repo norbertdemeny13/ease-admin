@@ -136,10 +136,14 @@
             label="User City"
             label-for="user-city"
           >
-            <b-form-input
-              id="user-city"
-              v-model="userData.city"
-            />
+          <v-select
+            :dir="$store.state.appConfig.isRTL ? 'rtl' : 'ltr'"
+            :value="userData.working_city_id"
+            :options="cityOptions"
+            class="w-100"
+            :reduce="val => val.value"
+            @input="(val) => $emit('on-update-working-city', val)"
+          />
           </b-form-group>
         </b-col>
 
@@ -231,8 +235,8 @@
       const { resolveUserRoleVariant } = useUsersList()
 
       const cityOptions = [
-        { label: 'Cluj Napoca', value: '1' },
-        { label: 'Bucuresti', value: '2' },
+        { label: 'Cluj Napoca', value: 1 },
+        { label: 'Bucuresti', value: 2 },
       ]
 
       const statusOptions = [

@@ -50,17 +50,25 @@
         </b-media>
       </template>
 
-      <!-- Column: Balance -->
-      <template #cell(review)="data">
-        <span class="font-weight-bold d-block text-nowrap">
-         {{ data.item.review || '-' }}
-        </span>
+      <!-- Column: Client -->
+      <template #cell(status)="data">
+        <b-media vertical-align="center">
+          <b-badge
+            pill
+            :variant="`light-${resolveUserStatusVariant(data.item.status)}`"
+            class="text-capitalize"
+          >
+            <span class="font-weight-bold d-block text-nowrap">
+              {{ $t(data.item.status) }}
+            </span>
+          </b-badge>
+        </b-media>
       </template>
 
       <!-- Column: Actions -->
       <template #cell(actions)="data">
 
-        <div class="text-nowrap" @click="onRefund(data.item.id)">
+        <div v-if="canRefund(data.item.status)" class="text-nowrap" v-b-modal.modal-refund @click="selectedRow = data.item.reservation_service_id">
           <feather-icon
             :id="`review-row-${data.item.id}-refund-icon`"
             icon="RefreshCwIcon"
@@ -74,7 +82,7 @@
           />
         </div>
 
-        <div class="text-nowrap" @click="onCancel(data.item.id)">
+        <div v-if="canCancel(data.item.status)" class="text-nowrap" @click="onCancel(data.item.reservation_service_id)">
           <feather-icon
             :id="`review-row-${data.item.id}-cancel-icon`"
             icon="SlashIcon"
@@ -135,18 +143,48 @@
 
       </b-row>
     </div>
+    <!-- modal refund-->
+    <b-modal
+      id="modal-refund"
+      cancel-variant="outline-secondary"
+      ok-title="Restituie"
+      cancel-title="Inchide"
+      centered
+      title="Restituire serviciu"
+      @hide="onModalHide"
+      @ok="onRefund"
+    >
+      <b-form>
+        <b-form-group>
+          <label for="refund">Suma restituire</label>
+          <b-form-input
+            id="refund"
+            v-model="refund.amount"
+            placeholder="Introdu suma care urmeaza sa fie restituita"
+          />
+        </b-form-group>
+        <b-form-group>
+          <label for="refund-reason">Motiv restituire</label>
+          <b-form-textarea
+            id="refund-reason"
+            v-model="refund.reason"
+            placeholder="Motiv restituire"
+            rows="3"
+          />
+        </b-form-group>
+      </b-form>
+    </b-modal>
   </b-card>
-
 </template>
 
 <script>
   /* eslint-disable */
   import { mapActions } from 'vuex';
   import {
-    BCard, BRow, BCol, BFormInput, BButton, BTable, BMedia, BAvatar, BLink,
+    BCard, BRow, BCol, BFormInput, BFormTextarea, BButton, BTable, BMedia, BModal, BAvatar, BLink,
     BBadge, BDropdown, BDropdownItem, BPagination, BTooltip,
+    BForm, BFormGroup,
   } from 'bootstrap-vue'
-  import { avatarText } from '@/core/utils/filter'
   import vSelect from 'vue-select'
   import { onUnmounted } from '@vue/composition-api'
   import { store } from '@/store'
@@ -157,10 +195,11 @@
       BCard,
       BRow,
       BCol,
-      BFormInput,
+      BFormInput, BFormTextarea,
       BButton,
       BTable,
       BMedia,
+      BModal,
       BAvatar,
       BLink,
       BBadge,
@@ -168,21 +207,22 @@
       BDropdownItem,
       BPagination,
       BTooltip,
-
+      BForm,
+      BFormGroup,
       vSelect,
     },
     props: {
       reservations: Array,
+      userId: [String, Number],
     },
+    data: () => ({
+      refund: {
+        amount: '',
+        reason: '',
+      },
+      selectedRow: '',
+    }),
     setup() {
-      const statusOptions = [
-        'Downloaded',
-        'Draft',
-        'Paid',
-        'Partial Payment',
-        'Past Due',
-      ]
-
       const {
         tableColumns,
         perPage,
@@ -194,13 +234,6 @@
         sortBy,
         isSortDirDesc,
         refInvoiceListTable,
-
-        statusFilter,
-
-        refetchData,
-
-        resolveInvoiceStatusVariantAndIcon,
-        resolveClientAvatarVariant,
       } = reviewsList();
 
       return {
@@ -214,29 +247,78 @@
         sortBy,
         isSortDirDesc,
         refInvoiceListTable,
-
-        statusFilter,
-
-        refetchData,
-
-        statusOptions,
-
-        avatarText,
-        resolveInvoiceStatusVariantAndIcon,
-        resolveClientAvatarVariant,
       }
     },
     methods: {
       ...mapActions({
         removeEliteReview: 'admin/removeEliteReview',
+        onClientRefund: 'admin/onClientRefund',
+        onReservationCancel: 'admin/onReservationCancel',
       }),
-      onCancel(id) {
-        // const eliteId = this.$router.currentRoute.params.id;
-        // this.removeEliteReview({ eliteId, reviewId: id  });
+
+      resolveUserStatusVariant(status) {
+        if (status === 'incomplete') return 'warning';
+        if (status === 'payment_ongoing') return 'warning';
+        if (status === 'waiting_confirmation') return 'warning';
+        if (status === 'on_the_way') return 'warning';
+        if (status === 'completed') return 'success';
+        if (status === 'reservation_cancelled_by_user') return 'secondary';
+        if (status === 'reservation_cancelled_by_elite') return 'secondary';
+        if (status === 'auto_cancelled') return 'secondary';
+        return 'primary';
       },
-      onRefund(id) {
-        // const eliteId = this.$router.currentRoute.params.id;
-        // this.removeEliteReview({ eliteId, reviewId: id  });
+
+      canRefund(status) {
+        const acceptedStatuses = [
+          'confirmed',
+          'on_the_way',
+          'arrived',
+          'completed',
+          'reservation_cancelled_by_user',
+          'reservation_cancelled_by_elite',
+          'reservation_cancelled_by_admin',
+          'admin_refunded',
+        ];
+        return acceptedStatuses.includes(status);
+      },
+
+      canCancel(status) {
+        const acceptedStatuses = [
+          'incomplete',
+          'payment_ongoing',
+          'waiting_confirmation',
+          'confirmed',
+          'on_the_way',
+          'arrived',
+        ];
+        return acceptedStatuses.includes(status);
+      },
+
+      onCancel(id) {
+        this.$bvModal
+          .msgBoxConfirm('Are you sure you want to cancel the reservation?', {
+            cancelVariant: 'outline-secondary',
+          })
+          .then(value => {
+            this.onReservationCancel({
+              serviceId: id,
+              clientId: this.userId,
+            });
+          })
+      },
+      onModalHide() {
+        this.refund = {
+          amount: '',
+          reason: '',
+        };
+      },
+      async onRefund() {
+        const { refund, selectedRow } = this;
+        await this.onClientRefund({
+          refund,
+          serviceId: selectedRow,
+          clientId: this.userId,
+        });
       },
     },
   }
@@ -262,4 +344,8 @@
 
 <style lang="scss">
   @import '@/core/scss/vue/libs/vue-select.scss';
+
+  .modal-footer {
+    background: transparent;
+  }
 </style>

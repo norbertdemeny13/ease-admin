@@ -2343,6 +2343,18 @@ header.sticky a.open_close:hover,
     color: #d00078;
 }
 
+.modal-header {
+    align-items: flex-start;
+    display: flex;
+    justify-content: space-between;
+    padding: 0.8rem 1.4rem;
+    border-bottom: 1px solid #ebe9f1;
+    border-top-left-radius: calc(0.358rem - 1px);
+    border-top-right-radius: calc(0.358rem - 1px);
+    padding: 0.8rem 1.4rem;
+    position: relative;
+}
+
 #logo {
     float: left;
 }

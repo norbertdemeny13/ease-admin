@@ -15,7 +15,7 @@ export default function useInvoicesList() {
   const tableColumns = [
     { key: 'id', label: '#', sortable: true },
     { key: 'user_id', sortable: true },
-    { key: 'review', sortable: true },
+    { key: 'status', sortable: true },
     { key: 'created_at', formatter: (val) => getZonedDateTime(val), sortable: true },
     { key: 'start_time', formatter: (val) => getZonedDateTime(val), sortable: true },
     { key: 'end_time', formatter: (val) => getZonedDateTime(val), sortable: true },

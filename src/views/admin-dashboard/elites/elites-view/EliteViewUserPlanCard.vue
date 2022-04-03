@@ -14,13 +14,13 @@
         cols="12"
         xl="6"
       >
-        <table class="mt-2 mt-xl-0 w-60">
+        <table class="mt-2 mt-xl-0 w-100">
           <tr>
             <th class="pb-50">
               <span class="font-weight-bold">CIF</span>
             </th>
             <td class="pb-50">
-              {{ userData.cif || '-' }}
+              {{ userData.cif_number || '-' }}
             </td>
           </tr>
           <tr>
@@ -29,14 +29,6 @@
             </th>
             <td class="pb-50 text-capitalize">
               {{ userData.registration_number || '-' }}
-            </td>
-          </tr>
-          <tr>
-            <th class="pb-50">
-              <span class="font-weight-bold">City</span>
-            </th>
-            <td class="pb-50 text-capitalize">
-              {{ userData.working_city_name }}
             </td>
           </tr>
           <tr>

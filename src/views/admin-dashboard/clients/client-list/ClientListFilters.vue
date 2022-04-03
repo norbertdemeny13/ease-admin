@@ -22,7 +22,7 @@
               variant="primary"
               @click="isAddNewUserSidebarActive = true"
             >
-              <span class="text-nowrap">Add User</span>
+              <span class="text-nowrap">Search</span>
             </b-button>
           </div>
         </b-col>

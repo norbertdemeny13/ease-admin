@@ -1,5 +1,5 @@
 <template>
-  <b-navbar-nav class="nav">
+  <b-navbar-nav class="nav ml-2">
     <b-nav-item
       v-for="(bookmark, index) in bookmarks"
       :id="`bookmark-${index}`"

@@ -43,6 +43,7 @@
             class="mt-2 pt-75"
             @on-save="onSave"
             @on-update-profile-picture="onUpdateProfilePicture"
+            @on-update-working-city="onUpdateWorkingCity"
           />
         </b-tab>
 
@@ -176,6 +177,11 @@
         updateElite: 'admin/updateElite',
         updateProfilePicture: 'admin/updateProfilePicture',
       }),
+
+      onUpdateWorkingCity(id) {
+        this.elite = { ...this.elite, working_city_id: parseInt(id, 10) };
+      },
+
       onUpdateElite(elite) {
         this.elite = { ...this.elite, ...elite };
       },
