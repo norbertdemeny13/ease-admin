@@ -51,6 +51,19 @@ const routes: Array<RouteConfig> = [
         component: () => import('@/views/admin-dashboard/clients/client-view/ClientView.vue'),
       },
       // *===============================================---*
+      // *--------- Cities ---- ---------------------------------------*
+      // *===============================================---*
+      {
+        path: 'city',
+        name: 'admin-city-list',
+        component: () => import('@/views/admin-dashboard/cities/city-list/CityList.vue'),
+      },
+      {
+        path: 'city/view/:id',
+        name: 'admin-city-view',
+        component: () => import('@/views/admin-dashboard/cities/city-view/CityView.vue'),
+      },
+      // *===============================================---*
       // *--------- Promo Codes ---- ---------------------------------------*
       // *===============================================---*
       {

@@ -9,8 +9,10 @@ import { store } from '@/store';
 export interface State extends ModuleState {
   isFetching: boolean;
   clients: [];
+  cities: [];
   elites: [];
   promoCodes: [];
+  selectedCity: any;
   selectedClient: any;
   selectedElite: any;
 }
@@ -22,7 +24,11 @@ export default {
     isFetching: false,
     elites: [],
     clients: [],
+    cities: [],
     promoCodes: [],
+    selectedCity: {
+      id: '',
+    },
     selectedClient: {
       id: '',
     },
@@ -67,6 +73,16 @@ export default {
         Vue.set(state, 'isFetching', false);
       }
     },
+    async fetchCities({ state }) {
+      Vue.set(state, 'isFetching', true);
+
+      try {
+        const { data } = await api.find('/admin/cities');
+        Vue.set(state, 'cities', data);
+      } finally {
+        Vue.set(state, 'isFetching', false);
+      }
+    },
     async fetchPromoCodes({ state }) {
       Vue.set(state, 'isFetching', true);
 
@@ -82,6 +98,15 @@ export default {
       try {
         const { data } = await api.find(`/admin/elites/${id}`);
         Vue.set(state, 'selectedElite', data);
+      } finally {
+        Vue.set(state, 'isFetching', false);
+      }
+    },
+    async fetchCity({ state }, id) {
+      Vue.set(state, 'isFetching', true);
+      try {
+        const { data } = await api.find(`/admin/cities/${id}`);
+        Vue.set(state, 'selectedCity', data);
       } finally {
         Vue.set(state, 'isFetching', false);
       }
@@ -122,6 +147,17 @@ export default {
           },
         });
         Vue.set(state, 'selectedElite', data);
+      } finally {
+        Vue.set(state, 'isFetching', false);
+      }
+    },
+    async saveServices({ dispatch, state }, { serviceIds, cityId }) {
+      Vue.set(state, 'isFetching', true);
+      try {
+        const { data } = await api.update(`/admin/cities/${cityId}`, {
+          service_ids: serviceIds,
+        });
+        dispatch('fetchCity', cityId);
       } finally {
         Vue.set(state, 'isFetching', false);
       }
@@ -171,8 +207,10 @@ export default {
   getters: {
     isFetching: state => state.isFetching,
     getClients: state => state.clients,
+    getCities: state => state.cities,
     getElites: state => state.elites,
     getPromoCodes: state => state.promoCodes,
+    getSelectedCity: state => state.selectedCity,
     getSelectedClient: state => state.selectedClient,
     getSelectedElite: state => state.selectedElite,
   } as GetterTree<State, RootState>,

@@ -1,28 +1,5 @@
 <template>
   <div>
-    <promo-code-add-new
-      :is-add-new-user-sidebar-active.sync="isAddNewCodeModalOpen"
-    />
-    <b-card no-body>
-      <b-card-body>
-        <b-row>
-          <b-col
-            cols="12"
-            md="4"
-            class="mb-md-0 mb-2 d-flex align-items-end"
-          >
-            <div class="d-flex flex-wrap">
-              <b-button
-                variant="primary"
-                @click="isAddNewCodeModalOpen = true"
-              >
-                Adauga cod promo
-              </b-button>
-            </div>
-          </b-col>
-        </b-row>
-      </b-card-body>
-    </b-card>
     <!-- Table Container Card -->
     <b-card
       no-body
@@ -31,7 +8,7 @@
       <b-table
         ref="refUserListTable"
         class="position-relative"
-        :items="getPromoCodes"
+        :items="cities"
         responsive
         :fields="tableColumns"
         primary-key="id"
@@ -42,31 +19,26 @@
       >
 
         <!-- Column: User -->
-        <template #cell(user)="data">
+        <template #cell(id)="data">
           <b-media vertical-align="center">
-            <template #aside>
-              <b-avatar
-                size="32"
-                :src="data.item.image.url"
-              />
-            </template>
-            {{ data.item.code }}
+            <b-link
+              :to="{ name: 'admin-city-view', params: { id: data.item.id } }"
+              class="font-weight-bold d-block text-nowrap"
+            >
+              #{{ data.item.id || '-' }}
+            </b-link>
           </b-media>
         </template>
 
-        <!-- Column: Created At -->
-        <template #cell(total_spent)="data">
-          {{ data.item.total_spent ? `${data.item.total_spent} Lei` : '0' }}
-        </template>
-
-        <!-- Column: Created At -->
-        <template #cell(created_at)="data">
-          {{ data.item.created_at ? data.item.created_at.substr(0, 10) : '-' }}
-        </template>
-
-        <!-- Column: Last Reservation -->
-        <template #cell(last_reservation_date)="data">
-          {{ data.item.last_reservation_date ? data.item.last_reservation_date.substr(0, 10) : '-' }}
+        <template #cell(name)="data">
+          <b-media vertical-align="center">
+            <b-link
+              :to="{ name: 'admin-city-view', params: { id: data.item.id } }"
+              class="font-weight-bold d-block text-nowrap"
+            >
+              {{ $t(data.item.name) || '-' }}
+            </b-link>
+          </b-media>
         </template>
 
       </b-table>
@@ -78,7 +50,7 @@
             sm="6"
             class="d-flex align-items-center justify-content-center justify-content-sm-start"
           >
-            <span class="text-muted">Showing {{ getPromoCodes.length }} entries</span>
+            <span class="text-muted">Showing {{ cities.length }} entries</span>
           </b-col>
           <!-- Pagination -->
           <b-col
@@ -124,8 +96,6 @@
   import { mapActions, mapGetters } from 'vuex';
   import {
     BCard,
-    BCardBody,
-    BCardHeader,
     BRow,
     BCol,
     BFormInput,
@@ -146,14 +116,13 @@
   import { store } from '@/store';
   import { isEqual } from 'lodash-es';
   import { ref, onUnmounted } from '@vue/composition-api';
-  import AddNewCode from './AddNewCode.vue';
-  import usePromoCodeList from './usePromoCodeList';
+  import { avatarText } from '@/core/utils/filter';
+  import useUsersList from './useCityList';
+  import userStoreModule from '../cityStoreModule';
 
   export default {
     components: {
       BCard,
-      BCardBody,
-      BCardHeader,
       BRow,
       BCol,
       BFormInput,
@@ -166,53 +135,40 @@
       BDropdown,
       BDropdownItem,
       BPagination,
-      'promo-code-add-new': AddNewCode,
 
       vSelect,
     },
 
     data: () => ({
-      isAddNewCodeModalOpen: false,
       dataMeta: {
         items: 10,
         page: 1,
+        city_id: null,
+        status: null,
+        service: null,
       },
-      refund: {
-        amount: '',
-        reason: '',
-      },
+      serviceIds: [],
     }),
 
     created() {
-      this.fetchPromoCodes();
+      this.fetchCities(this.dataMeta);
     },
     computed: {
       ...mapGetters({
-        getPromoCodes: 'admin/getPromoCodes',
+        getCities: 'admin/getCities',
       }),
-      clients() {
-        const clients = this.getClients.items || [];
-        const meta = this.getClients.pagy;
-        return clients.map(elite => ({ ...elite, working_city_name: this.$t(elite.working_city_name), }));
+      cities() {
+        const cities = this.getCities || [];
+        return cities;
       },
     },
-
     methods: {
       ...mapActions({
-        fetchPromoCodes: 'admin/fetchPromoCodes',
+        fetchCities: 'admin/fetchCities',
       }),
-      getInitials(item) {
-        const firstNameI = item.full_name?.split(' ').map(n => n[0]).join('');
-        return `${firstNameI}`;
-      },
-      onAdd() {},
-      onModalHide() {},
     },
     setup() {
-      const isAddNewUserSidebarActive = ref(false)
-
       const {
-        fetchUsers,
         tableColumns,
         perPage,
         perPageOptions,
@@ -229,14 +185,9 @@
         // Extra Filters
         cityFilter,
         serviceFilter,
-      } = usePromoCodeList()
+      } = useUsersList()
 
       return {
-
-        // Sidebar
-        isAddNewUserSidebarActive,
-
-        fetchUsers,
         tableColumns,
         perPage,
         perPageOptions,
@@ -269,27 +220,6 @@
   background-color: #28c76f !important;
   color: #28c76f !important;
   border-radius: 50%;
-}
-
-.item-header {
-  display: flex;
-}
-
-.item-logo {
-  background-color: rgba(115, 103, 240, 0.12);
-  color: #7367f0;
-  border-radius: 50%;
-  color: #000000;
-  display: flex;
-  font-size: 14px;
-  height: 35px;
-  justify-content: center;
-  width: 35px;
-  line-height: 34px;
-}
-
-span {
-  font-size: 1rem;
 }
 </style>
 
