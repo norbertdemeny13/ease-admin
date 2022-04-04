@@ -24,8 +24,8 @@ export default function useUsersList() {
       sortable: true,
     },
     { key: 'status', sortable: true },
-    { key: 'pending_services', label: 'Pending Service', sortable: false },
-    { key: 'pending_documents', label: 'Pending Documents', sortable: false },
+    { key: 'pending_services', label: 'Pending Service', sortable: true },
+    { key: 'pending_documents', label: 'Pending Documents', sortable: true },
   ]
 
   const perPage = ref(10)

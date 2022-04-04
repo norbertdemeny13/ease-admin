@@ -198,7 +198,7 @@
 
           <!-- Direct discount -->
             <b-form-group
-              label="Discount direct"
+              label="Discount fix"
               label-for="direct-discount"
             >
               <b-form-input
@@ -237,7 +237,7 @@
 
           <!-- Visible -->
             <b-form-group
-              label="Vizibil"
+              label="Vizibil in aplicatie"
               label-for="visible"
             >
               <b-form-checkbox

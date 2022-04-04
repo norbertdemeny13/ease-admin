@@ -22,10 +22,8 @@
 
     <!-- Right Col -->
     <b-navbar-nav class="nav align-items-center ml-auto">
-      <locale />
       <dark-toggler class="d-none d-lg-block" />
       <search-bar />
-      <notification-dropdown />
       <user-dropdown />
     </b-navbar-nav>
   </div>

@@ -18,8 +18,8 @@ export default function useUsersList() {
     { key: 'reservations_count', label: 'Rezervari', sortable: true },
     { key: 'total_spent', label: 'Total cheltuit', sortable: true },
     { key: 'created_at', label: 'Cont creat', sortable: true },
-    { key: 'last_reservation_date', label: 'Ultima rezervare', sortable: false },
-    { key: 'flags_count', label: 'Atentionari', sortable: false },
+    { key: 'last_reservation_date', label: 'Ultima rezervare', sortable: true },
+    { key: 'flags_count', label: 'Atentionari', sortable: true },
   ]
 
   const perPage = ref(10)

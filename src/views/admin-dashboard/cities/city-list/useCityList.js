@@ -17,8 +17,8 @@ export default function useUsersList() {
     { key: 'id', label: 'Id Oras', sortable: true },
     { key: 'name', label: 'Nume Oras', formatter: (val) => i18n.t(val), sortable: true },
     { key: 'active_services_count', label: 'Servicii active', sortable: true },
-    { key: 'users_count', label: 'Clienti', sortable: false },
-    { key: 'elites_count', label: 'Profesionist', sortable: false },
+    { key: 'users_count', label: 'Clienti', sortable: true },
+    { key: 'elites_count', label: 'Profesionist', sortable: true },
   ]
 
   const perPage = ref(10)

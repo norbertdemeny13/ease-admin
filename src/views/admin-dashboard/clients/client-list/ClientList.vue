@@ -53,7 +53,7 @@
             >
               {{ data.item.full_name }}
             </b-link>
-            <small class="text-muted">#{{ data.item.email }}</small>
+            <small class="text-muted">{{ data.item.email }}</small>
           </b-media>
         </template>
 

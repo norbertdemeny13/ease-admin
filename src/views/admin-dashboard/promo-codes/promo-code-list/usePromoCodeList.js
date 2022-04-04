@@ -21,8 +21,9 @@ export default function useUsersList() {
     { key: 'first_timers_only', label: 'Prima rezervare', formatter: (val) => val ? 'Da' : 'Nu', sortable: true },
     { key: 'uses_left', label: 'Utilizari ramase', sortable: true },
     { key: 'minimum_order_value', label: 'Comanda minima', formatter: (val) => `${val} Lei`, sortable: true },
-    { key: 'percentage_discount', label: 'Valoare discount', formatter: (val) => val ? `${val}%` : '-', sortable: false },
-    { key: 'visible', label: 'Vizibil', formatter: (val) => val ? 'Da' : 'Nu', sortable: false },
+    { key: 'percentage_discount', label: 'Discount %', formatter: (val) => val ? `${val}%` : '-', sortable: true },
+    { key: 'direct_discount', label: 'Discount fix', formatter: (val) => val ? `${val} Lei` : '-', sortable: true },
+    { key: 'visible', label: 'Vizibil in aplicatie', formatter: (val) => val ? 'Da' : 'Nu', sortable: true },
   ]
 
   const perPage = ref(10)

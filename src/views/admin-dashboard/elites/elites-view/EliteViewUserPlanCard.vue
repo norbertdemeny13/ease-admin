@@ -12,7 +12,7 @@
     <b-card-body>
       <b-col
         cols="12"
-        xl="6"
+        xl="12"
       >
         <table class="mt-2 mt-xl-0 w-100">
           <tr>

@@ -1,6 +1,11 @@
 <template>
   <div>
     <b-card no-body>
+      <b-card-header class="pb-50">
+        <h5>
+          {{ getCityName }}
+        </h5>
+      </b-card-header>
       <b-card-body>
         <b-row>
           <b-col
@@ -95,7 +100,7 @@
   /* eslint-disable */
   import Vue from 'vue';
   import { mapGetters, mapActions } from 'vuex';
-  import { BCard, BCol, BCardBody, BRow, BFormCheckbox, BButton } from 'bootstrap-vue';
+  import { BCard, BCol, BCardBody, BCardHeader, BRow, BFormCheckbox, BButton } from 'bootstrap-vue';
   import { Card, CardsContaienr } from '@/components/shared/card';
   import { isEqual } from 'lodash-es';
 
@@ -108,6 +113,7 @@
       BCol,
       BRow,
       BFormCheckbox,
+      BCardHeader,
       BButton,
       'es-card': Card,
       'es-cards-container': CardsContaienr,
@@ -141,6 +147,15 @@
             id: item.category,
           }));
         return filteredServices;
+      },
+
+      getCityName() {
+        const cityId = this.$router.currentRoute.params.id;
+        const cityOptions = [
+          { label: 'Cluj Napoca', value: '1' },
+          { label: 'Bucuresti', value: '2' },
+        ];
+        return cityOptions.find(({ value }) => cityId == value).label;
       },
     },
 
