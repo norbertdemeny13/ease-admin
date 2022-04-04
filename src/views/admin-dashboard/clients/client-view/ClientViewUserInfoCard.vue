@@ -50,7 +50,7 @@
               <h5 class="mb-0">
                 {{ userData.total_spent }}
               </h5>
-              <small>Total Cheltuieli</small>
+              <small>Total Cheltuit</small>
             </div>
           </div>
 

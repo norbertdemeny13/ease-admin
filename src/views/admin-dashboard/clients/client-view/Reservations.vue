@@ -58,8 +58,20 @@
             :variant="`light-${resolveUserStatusVariant(data.item.status)}`"
             class="text-capitalize"
           >
-            <span class="font-weight-bold d-block text-nowrap">
-              {{ $t(data.item.status) }}
+            <span v-if="data.item.status === 'reservation_cancelled_by_user'" class="font-weight-bold d-block text-nowrap">
+              Anulata de user
+            </span>
+            <span v-else-if="data.item.status === 'reservation_cancelled_by_elite'" class="font-weight-bold d-block text-nowrap">
+              Anulata de pro
+            </span>
+            <span v-else-if="data.item.status === 'auto_cancelled'" class="font-weight-bold d-block text-nowrap">
+              Anulata automat
+            </span>
+            <span v-else-if="data.item.status === 'cancelled'" class="font-weight-bold d-block text-nowrap">
+              Anulata
+            </span>
+            <span v-else class="font-weight-bold d-block text-nowrap">
+              {{ data.item.status }}
             </span>
           </b-badge>
         </b-media>
