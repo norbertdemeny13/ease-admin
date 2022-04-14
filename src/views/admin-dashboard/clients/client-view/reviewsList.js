@@ -14,12 +14,12 @@ export default function useInvoicesList() {
   // Table Handlers
   const tableColumns = [
     { key: 'id', label: '#', sortable: true },
-    { key: 'user_id', sortable: true },
     { key: 'status', sortable: true },
     { key: 'created_at', formatter: (val) => getZonedDateTime(val), sortable: true },
     { key: 'start_time', formatter: (val) => getZonedDateTime(val), sortable: true },
     { key: 'end_time', formatter: (val) => getZonedDateTime(val), sortable: true },
     { key: 'total', formatter: (val) => `${val} Lei`, sortable: true },
+    { key: 'to_pay', formatter: (val) => `${val} Lei`, sortable: true },
     { key: 'actions' },
   ]
   const perPage = ref(10)

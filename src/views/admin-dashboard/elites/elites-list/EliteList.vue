@@ -57,7 +57,7 @@
             >
               {{ data.item.full_name }}
             </b-link>
-            <small class="text-muted">#{{ data.item.elite_id || '-' }}</small>
+            <small class="text-muted">#{{ data.item.id || '-' }}</small>
           </b-media>
         </template>
 

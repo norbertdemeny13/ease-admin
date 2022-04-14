@@ -121,7 +121,7 @@
 
     props: {
       services: {
-        type: Array,
+        type: [Object, Array],
         required: true,
       },
       disabled: {
@@ -206,7 +206,19 @@
 </script>
 
 <style>
-i.indicator {
-  color: #7367f0 !important;
-}
+  i.indicator {
+    color: #7367f0 !important;
+  }
+
+  .dark-layout #accordion_services .card-header,
+  .dark-layout #accordion_services .card-body {
+    background: #7367f0 !important;
+    color: #ffffff !important;
+  }
+
+  .dark-layout #accordion_services i.indicator,
+  .dark-layout #accordion_services .card-header a,
+  .dark-layout #accordion_services .card-body label {
+    color: #ffffff !important;
+  }
 </style>

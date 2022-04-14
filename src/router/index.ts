@@ -76,7 +76,8 @@ const routes: Array<RouteConfig> = [
 ];
 
 export const router = new VueRouter({
-  linkActiveClass: 'is-current-route',
+  linkActiveClass: 'router-link-active',
+  linkExactActiveClass: 'router-link-exact-active',
   base: process.env.BASE_URL,
   routes,
   scrollBehavior(to, from) {

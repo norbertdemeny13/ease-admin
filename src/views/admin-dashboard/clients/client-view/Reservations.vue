@@ -42,15 +42,6 @@
       </template>
 
       <!-- Column: Client -->
-      <template #cell(client)="data">
-        <b-media vertical-align="center">
-          <span class="font-weight-bold d-block text-nowrap">
-            {{ data.item.client_id }}
-          </span>
-        </b-media>
-      </template>
-
-      <!-- Column: Client -->
       <template #cell(status)="data">
         <b-media vertical-align="center">
           <b-badge
@@ -177,11 +168,12 @@
         </b-form-group>
         <b-form-group>
           <label for="refund-reason">Motiv restituire</label>
-          <b-form-textarea
-            id="refund-reason"
-            v-model="refund.reason"
-            placeholder="Motiv restituire"
-            rows="3"
+          <v-select
+            :value="refund.reason"
+            :options="refundOptions"
+            class="w-100"
+            :reduce="val => val.value"
+            @input="(val) => refund.reason = val"
           />
         </b-form-group>
       </b-form>
@@ -260,6 +252,17 @@
         isSortDirDesc,
         refInvoiceListTable,
       }
+    },
+    computed: {
+      refundOptions() {
+        const refundOptions = [
+          { label: 'Duplicat', value: 'duplicate' },
+          { label: 'Fraudulos', value: 'fraudulent' },
+          { label: 'Solicitat de client', value: 'requested_by_customer' },
+        ];
+
+        return refundOptions;
+      },
     },
     methods: {
       ...mapActions({

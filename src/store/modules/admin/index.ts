@@ -194,8 +194,8 @@ export default {
     async onAddCredit({ dispatch, state }, { credit, clientId }) {
       Vue.set(state, 'isFetching', true);
       try {
-        await api.create(`admin/users/${clientId}`, {
-          value: credit,
+        await api.create(`admin/users/${clientId}/add_ease_credit`, {
+          value: typeof credit === 'string' ? parseInt(credit, 10) : credit,
         });
         dispatch('fetchUser', clientId);
       } finally {

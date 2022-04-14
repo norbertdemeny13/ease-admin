@@ -689,7 +689,9 @@
 }
 
 .router-link-active,
-.router-link-exact-active {
+.router-link-exact-active,
+.router-link-exact-active svg,
+.router-link-active svg {
     color: #7367f0 !important;
     font-weight: 500;
 }
