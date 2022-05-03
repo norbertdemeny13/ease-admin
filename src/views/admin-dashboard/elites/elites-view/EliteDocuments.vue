@@ -1,7 +1,7 @@
 <template>
   <b-card :title="$t('views.pro_dashboard.documents')">
     <div class="d-flex mt-2">
-      <es-custom-checkbox :checked="userData.interview_done" />
+      <es-custom-checkbox :checked="userData.interview_done" class="mr-2" />
       <div class="d-flex justify-content-between w-100">
         <div class="document-type d-flex flex-column">
           <h3>{{ $t('generic.interview_confirmed') }}</h3>
@@ -18,7 +18,7 @@
       </div>
     </div>
     <div class="d-flex mt-2">
-      <es-custom-checkbox :checked="userData.avatar_confirmed" />
+      <es-custom-checkbox :checked="userData.avatar_confirmed" class="mr-2" />
       <div class="d-flex justify-content-between w-100">
         <div class="document-type d-flex flex-column">
           <h3>{{ $t('views.pro_dashboard.avatar') }}</h3>
@@ -38,7 +38,7 @@
       </div>
     </div>
     <div class="d-flex mt-2">
-      <es-custom-checkbox :checked="userData.certificate_of_calification_confirmed" />
+      <es-custom-checkbox :checked="userData.certificate_of_calification_confirmed" class="mr-2" />
       <div class="d-flex justify-content-between w-100">
         <div class="document-type d-flex flex-column">
           <h3>{{ $t('views.pro_dashboard.qualification_certificate') }}</h3>
@@ -58,7 +58,7 @@
       </div>
     </div>
     <div class="d-flex mt-2">
-      <es-custom-checkbox :checked="userData.id_card_confirmed" />
+      <es-custom-checkbox :checked="userData.id_card_confirmed" class="mr-2" />
       <div class="d-flex justify-content-between w-100">
         <div class="document-type d-flex flex-column">
           <h3>{{ $t('views.pro_dashboard.identity_card') }}</h3>
@@ -78,7 +78,7 @@
       </div>
     </div>
     <div class="d-flex mt-2">
-      <es-custom-checkbox :checked="userData.certificate_of_registration_confirmed" />
+      <es-custom-checkbox :checked="userData.certificate_of_registration_confirmed" class="mr-2" />
       <div class="d-flex justify-content-between w-100">
         <div class="document-type d-flex flex-column">
           <h3>{{ $t('views.pro_dashboard.register_certificate') }}</h3>
@@ -98,7 +98,7 @@
       </div>
     </div>
     <div class="d-flex mt-2">
-      <es-custom-checkbox :checked="userData.practice_insurance_confirmed" />
+      <es-custom-checkbox :checked="userData.practice_insurance_confirmed" class="mr-2" />
       <div class="d-flex justify-content-between w-100">
         <div class="document-type d-flex flex-column">
           <h3>{{ $t('views.pro_dashboard.professional_liability_insurance') }}</h3>
@@ -118,7 +118,7 @@
       </div>
     </div>
     <div class="d-flex mt-2">
-      <es-custom-checkbox :checked="userData.criminal_record_confirmed" />
+      <es-custom-checkbox :checked="userData.criminal_record_confirmed" class="mr-2" />
       <div class="d-flex justify-content-between w-100">
         <div class="document-type d-flex flex-column">
           <h3>{{ $t('views.pro_dashboard.criminal_record_certificate') }}</h3>
@@ -138,7 +138,7 @@
       </div>
     </div>
     <div class="d-flex mt-2">
-      <es-custom-checkbox :checked="userData.equipment_photos_confirmed" />
+      <es-custom-checkbox :checked="userData.equipment_photos_confirmed" class="mr-2" />
       <div class="d-flex justify-content-between w-100">
         <div class="document-type d-flex flex-column">
           <h3>{{ $t('views.pro_dashboard.equipment_photos') }}</h3>
@@ -158,7 +158,7 @@
       </div>
     </div>
     <div class="d-flex mt-2">
-      <es-custom-checkbox :checked="userData.accord_accepted" />
+      <es-custom-checkbox :checked="userData.accord_accepted" class="mr-2" />
       <div class="d-flex justify-content-between w-100">
         <div class="document-type d-flex flex-column">
           <h3>{{ $t('views.pro_dashboard.accept_terms_and_conditions') }}</h3>
@@ -166,7 +166,7 @@
       </div>
     </div>
     <div class="d-flex mt-2">
-      <es-custom-checkbox :checked="userData.stripe_account_created" />
+      <es-custom-checkbox :checked="userData.stripe_account_created" class="mr-2" />
       <div class="d-flex justify-content-between w-100">
         <div class="document-type d-flex flex-column">
           <h3>{{ $t('views.pro_dashboard.bank_account') }}</h3>
