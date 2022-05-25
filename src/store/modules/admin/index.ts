@@ -3,8 +3,25 @@ import Vue from 'vue';
 import { ActionTree, MutationTree, GetterTree } from 'vuex';
 import { ModuleState, RootState } from '@/store/interfaces';
 import { api } from '@/services/api';
+import { nanoid } from 'nanoid';
+import { i18n } from '@/i18n';
 import instance from '@/main';
 import { store } from '@/store';
+
+const dispatchToast = (
+  { intent, title, message }: {
+    intent: string;
+    title: string;
+    message: string;
+  },
+) => {
+  (instance as any).$toasts.toast({
+    id: nanoid(),
+    intent,
+    title,
+    message,
+  });
+};
 
 export interface State extends ModuleState {
   isFetching: boolean;
@@ -176,6 +193,17 @@ export default {
       try {
         await api.create(`admin/reservations/${serviceId}/cancel`);
         dispatch('fetchUser', clientId);
+        dispatchToast({
+          intent: 'success',
+          title: i18n.t('toast.congrats_title').toString(),
+          message: i18n.t('toast.cancel_reservation').toString(),
+        });
+      } catch({ reason }) {
+        dispatchToast({
+          intent: 'error',
+          title: i18n.t('toast.error_title').toString(),
+          message: i18n.t('toast.cancel_reservation_failed').toString(),
+        });
       } finally {
         Vue.set(state, 'isFetching', false);
       }
@@ -187,6 +215,17 @@ export default {
           ...refund,
         });
         dispatch('fetchUser', clientId);
+        dispatchToast({
+          intent: 'success',
+          title: i18n.t('toast.congrats_title').toString(),
+          message: i18n.t('toast.refund.success').toString(),
+        });
+      } catch({ reason }) {
+        dispatchToast({
+          intent: 'error',
+          title: 'Eroare',
+          message: i18n.t('toast.refund.failed').toString(),
+        });
       } finally {
         Vue.set(state, 'isFetching', false);
       }

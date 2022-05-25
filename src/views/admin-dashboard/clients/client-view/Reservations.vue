@@ -71,7 +71,7 @@
       <!-- Column: Actions -->
       <template #cell(actions)="data">
 
-        <div v-if="canRefund(data.item.status)" class="text-nowrap" v-b-modal.modal-refund @click="selectedRow = data.item.reservation_service_id">
+        <div v-if="canRefund(data.item.status)" class="text-nowrap" v-b-modal.modal-refund @click="selectedRow = data.item.id">
           <feather-icon
             :id="`review-row-${data.item.id}-refund-icon`"
             icon="RefreshCwIcon"
@@ -85,7 +85,7 @@
           />
         </div>
 
-        <div v-if="canCancel(data.item.status)" class="text-nowrap" @click="onCancel(data.item.reservation_service_id)">
+        <div v-if="canCancel(data.item.status)" class="text-nowrap" @click="onCancel(data.item.id)">
           <feather-icon
             :id="`review-row-${data.item.id}-cancel-icon`"
             icon="SlashIcon"
@@ -285,14 +285,9 @@
 
       canRefund(status) {
         const acceptedStatuses = [
-          'confirmed',
-          'on_the_way',
-          'arrived',
           'completed',
           'reservation_cancelled_by_user',
-          'reservation_cancelled_by_elite',
           'reservation_cancelled_by_admin',
-          'admin_refunded',
         ];
         return acceptedStatuses.includes(status);
       },
