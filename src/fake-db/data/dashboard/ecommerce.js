@@ -1,4 +1,4 @@
-import mock from '@/@fake-db/mock'
+import mock from '@/@fake-db/mock';
 /* eslint-disable global-require */
 const data = {
   congratulations: {
@@ -233,6 +233,6 @@ const data = {
       deduction: false,
     },
   ],
-}
+};
 /* eslint-disable global-require */
-mock.onGet('/ecommerce/data').reply(() => [200, data])
+mock.onGet('/ecommerce/data').reply(() => [200, data]);

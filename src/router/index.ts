@@ -99,20 +99,25 @@ router.beforeEach(async (to, from, next) => {
 
   const { params, path, query, name } = to;
   const { type, id } = params;
-  const isAuth = store.getters['session/isAuth'];
-  const getUserToken = store.getters['session/getUserToken'];
-  const getUserType = store.getters['session/getUserType'];
-  const jwtToken = localStorage.getItem('jwt') && !localStorage.getItem('jwt')!.includes('undefined');
-  const authToken = localStorage.getItem('auth') && !localStorage.getItem('auth')!.includes('undefined');
+ 
+  const savedCredentials = localStorage.getItem('savedCredentials');
+  const email = localStorage.getItem('email');
+  const password = localStorage.getItem('password');
+  
+  console.log(to, 'to');
 
-  store.dispatch('session/setUserType', 'admin');
-
-  const getUser = store.getters['session/getUser'];
-
-  if (!getUserToken && !authToken && jwtToken) {
-    await store.dispatch('session/jwtLogin', localStorage.getItem('jwt'));
+  if (!!savedCredentials && email && password) {
+    store.dispatch('session/login', {
+      credentials: {
+        email,
+        password,
+      },
+    });
     isAuthenticated = true;
+    next();
   }
 
-  next();
+  if (!isAuthenticated) {
+    next();
+  }
 });

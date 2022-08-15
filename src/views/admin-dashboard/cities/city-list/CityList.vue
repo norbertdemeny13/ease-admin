@@ -17,7 +17,6 @@
         empty-text="No matching records found"
         :sort-desc.sync="isSortDirDesc"
       >
-
         <!-- Column: User -->
         <template #cell(id)="data">
           <b-media vertical-align="center">
@@ -40,11 +39,9 @@
             </b-link>
           </b-media>
         </template>
-
       </b-table>
       <div class="mx-2 mb-2">
         <b-row>
-
           <b-col
             cols="12"
             sm="6"
@@ -58,7 +55,6 @@
             sm="6"
             class="d-flex align-items-center justify-content-center justify-content-sm-end"
           >
-
             <b-pagination
               v-model="dataMeta.page"
               :total-rows="dataMeta.count"
@@ -82,9 +78,7 @@
                 />
               </template>
             </b-pagination>
-
           </b-col>
-
         </b-row>
       </div>
     </b-card>

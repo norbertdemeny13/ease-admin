@@ -68,6 +68,33 @@
         </b-media>
       </template>
 
+      <template #cell(start_time)="data">
+        {{ getZonedDateTime(data.item.start_time) }} - {{ getZonedDateTime(data.item.end_time).slice(-5) }}
+      </template>
+
+      <template #cell(elites)="data">
+        <b-avatar-group size="32px">
+          <b-avatar
+            v-if="!data.item.elites[0]"
+            class="pull-up"
+            src="data.item.elites[0].avatar_url"
+          />
+          <template
+            v-else
+          >
+            <b-avatar
+              v-for="item in data.item.elites"
+              :key="item.id"
+              v-b-tooltip.hover
+              class="pull-up"
+              :to="{ name: 'admin-elite-view', params: { id: item.id } }"
+              :title="item.display_name"
+              :src="item.avatar_url"
+            />
+          </template>
+        </b-avatar-group>
+      </template>
+
       <!-- Column: Actions -->
       <template #cell(actions)="data">
 
@@ -185,17 +212,21 @@
   /* eslint-disable */
   import { mapActions } from 'vuex';
   import {
+    BAvatarGroup,
     BCard, BRow, BCol, BFormInput, BFormTextarea, BButton, BTable, BMedia, BModal, BAvatar, BLink,
     BBadge, BDropdown, BDropdownItem, BPagination, BTooltip,
     BForm, BFormGroup,
+    VBTooltip,
   } from 'bootstrap-vue'
   import vSelect from 'vue-select'
   import { onUnmounted } from '@vue/composition-api'
   import { store } from '@/store'
+  import { getZonedDateTime } from '@/utils/date-helpers';
   import reviewsList from './reviewsList'
 
   export default {
     components: {
+      BAvatarGroup,
       BCard,
       BRow,
       BCol,
@@ -219,6 +250,9 @@
       reservations: Array,
       userId: [String, Number],
     },
+    directives: {
+      'b-tooltip': VBTooltip,
+    },
     data: () => ({
       refund: {
         amount: '',
@@ -238,6 +272,7 @@
         sortBy,
         isSortDirDesc,
         refInvoiceListTable,
+        getZonedDateTime,
       } = reviewsList();
 
       return {
@@ -251,6 +286,7 @@
         sortBy,
         isSortDirDesc,
         refInvoiceListTable,
+        getZonedDateTime,
       }
     },
     computed: {

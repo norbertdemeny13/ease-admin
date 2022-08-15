@@ -45,12 +45,11 @@
 
       <!-- Column: Id -->
       <template #cell(id)="data">
-        <b-link
-          :to="{ name: 'apps-invoice-preview', params: { id: data.item.id }}"
+        <span
           class="font-weight-bold"
         >
           #{{ data.value }}
-        </b-link>
+        </span>
       </template>
 
       <!-- Column: Client -->

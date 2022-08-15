@@ -7,28 +7,25 @@
     <template #button-content>
       <div class="d-sm-flex d-none user-nav">
         <p class="user-name font-weight-bolder mb-0">
-          {{ userData.fullName || userData.username }}
+          Ease
         </p>
         <span class="user-status">{{ userData.role }}</span>
       </div>
-      <b-avatar
-        size="40"
-        :src="userData.avatar"
-        variant="light-primary"
-        badge
-        class="badge-minimal"
-        badge-variant="success"
-      >
-        <feather-icon
-          v-if="!userData.fullName"
-          icon="UserIcon"
-          size="22"
-        />
-      </b-avatar>
     </template>
 
     <b-dropdown-item
-      :to="{ name: 'pages-profile'}"
+      :to="{ name: 'admin-elite-list'}"
+      link-class="d-flex align-items-center"
+    >
+      <feather-icon
+        size="16"
+        icon="BriefcaseIcon"
+        class="mr-50"
+      />
+      <span>Profesionisti</span>
+    </b-dropdown-item>
+    <b-dropdown-item
+      :to="{ name: 'admin-client-list' }"
       link-class="d-flex align-items-center"
     >
       <feather-icon
@@ -36,77 +33,33 @@
         icon="UserIcon"
         class="mr-50"
       />
-      <span>Profile</span>
+      <span>Clienti</span>
     </b-dropdown-item>
     <b-dropdown-item
-      :to="{ name: 'apps-email' }"
+      :to="{ name: 'admin-city-list' }"
       link-class="d-flex align-items-center"
     >
       <feather-icon
         size="16"
-        icon="MailIcon"
+        icon="GlobeIcon"
         class="mr-50"
       />
-      <span>Inbox</span>
+      <span>Orase</span>
     </b-dropdown-item>
     <b-dropdown-item
-      :to="{ name: 'apps-todo' }"
+      :to="{ name: 'admin-promo-code-list' }"
       link-class="d-flex align-items-center"
     >
       <feather-icon
         size="16"
-        icon="CheckSquareIcon"
+        icon="GiftIcon"
         class="mr-50"
       />
-      <span>Task</span>
-    </b-dropdown-item>
-    <b-dropdown-item
-      :to="{ name: 'apps-chat' }"
-      link-class="d-flex align-items-center"
-    >
-      <feather-icon
-        size="16"
-        icon="MessageSquareIcon"
-        class="mr-50"
-      />
-      <span>Chat</span>
+      <span>Coduri Promo</span>
     </b-dropdown-item>
 
     <b-dropdown-divider />
 
-    <b-dropdown-item
-      :to="{ name: 'pages-account-setting' }"
-      link-class="d-flex align-items-center"
-    >
-      <feather-icon
-        size="16"
-        icon="SettingsIcon"
-        class="mr-50"
-      />
-      <span>Settings</span>
-    </b-dropdown-item>
-    <b-dropdown-item
-      :to="{ name: 'pages-pricing' }"
-      link-class="d-flex align-items-center"
-    >
-      <feather-icon
-        size="16"
-        icon="CreditCardIcon"
-        class="mr-50"
-      />
-      <span>Pricing</span>
-    </b-dropdown-item>
-    <b-dropdown-item
-      :to="{ name: 'pages-faq' }"
-      link-class="d-flex align-items-center"
-    >
-      <feather-icon
-        size="16"
-        icon="HelpCircleIcon"
-        class="mr-50"
-      />
-      <span>FAQ</span>
-    </b-dropdown-item>
     <b-dropdown-item
       link-class="d-flex align-items-center"
       @click="logout"
@@ -158,7 +111,7 @@
     },
     methods: {
       ...mapActions({
-        adminLogout: 'session/adminLogout',
+        adminLogout: 'session/logout',
       }),
       logout() {
         this.adminLogout();
@@ -167,7 +120,7 @@
         // this.$ability.update(initialAbility);
 
         // Redirect to login page
-        this.$router.push('/admin');
+        this.$router.push('/profesionisti');
       },
     },
   };

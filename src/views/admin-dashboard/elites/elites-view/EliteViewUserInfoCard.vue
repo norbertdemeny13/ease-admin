@@ -1,8 +1,6 @@
 <template>
   <b-card>
-
     <b-row>
-
       <!-- User Info: Left col -->
       <b-col
         cols="21"

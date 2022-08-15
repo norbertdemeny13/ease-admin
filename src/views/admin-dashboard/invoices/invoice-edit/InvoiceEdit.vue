@@ -24,7 +24,6 @@
       v-if="invoiceData"
       class="invoice-add"
     >
-
       <!-- Col: Left (Invoice Container) -->
       <b-col
         cols="12"
@@ -38,9 +37,7 @@
           >
             <!-- Header -->
             <b-card-body class="invoice-padding pb-0">
-
               <div class="d-flex justify-content-between flex-md-row flex-column invoice-spacing mt-0">
-
                 <!-- Header: Left Content -->
                 <div>
                   <div class="logo-wrapper">
@@ -107,7 +104,6 @@
               class="invoice-padding pt-0"
             >
               <b-row class="invoice-spacing">
-
                 <!-- Col: Invoice To -->
                 <b-col
                   cols="12"
@@ -203,11 +199,9 @@
                   ref="row"
                   class="pb-2"
                 >
-
                   <!-- Item Form -->
                   <!-- ? This will be in loop => So consider below markup for single item -->
                   <b-col cols="12">
-
                     <!-- ? Flex to keep separate width for XIcon and SettingsIcon -->
                     <div class="d-none d-lg-flex">
                       <b-row class="flex-grow-1 px-1">
@@ -331,7 +325,6 @@
                         >
                           <b-form @submit.prevent>
                             <b-row>
-
                               <!-- Field: Discount -->
                               <b-col cols="12">
                                 <b-form-group
@@ -416,7 +409,6 @@
             <!-- Invoice Description: Total -->
             <b-card-body class="invoice-padding pb-0">
               <b-row>
-
                 <!-- Col: Sales Persion -->
                 <b-col
                   cols="12"
@@ -502,10 +494,8 @@
         xl="3"
         class="invoice-actions"
       >
-
         <!-- Action Buttons -->
         <b-card>
-
           <!-- Button: Send Invoice -->
           <b-button
             v-ripple.400="'rgba(255, 255, 255, 0.15)'"
@@ -604,20 +594,20 @@
 </template>
 
 <script>
-  import Logo from '@core/layouts/components/Logo.vue'
-  import { ref, onUnmounted } from '@vue/composition-api'
-  import { heightTransition } from '@core/mixins/ui/transition'
-  import Ripple from 'vue-ripple-directive'
-  import { store } from '@/store'
-  import router from '@/router'
+  import Logo from '@core/layouts/components/Logo.vue';
+  import { ref, onUnmounted } from '@vue/composition-api';
+  import { heightTransition } from '@core/mixins/ui/transition';
+  import Ripple from 'vue-ripple-directive';
+  import { store } from '@/store';
+  import router from '@/router';
   import {
     BRow, BCol, BCard, BCardBody, BButton, BCardText, BForm, BFormGroup, BFormInput, BInputGroup, BInputGroupPrepend, BFormTextarea, BFormCheckbox, BPopover, BAlert, BLink, VBToggle,
-  } from 'bootstrap-vue'
-  import vSelect from 'vue-select'
-  import flatPickr from 'vue-flatpickr-component'
-  import invoiceStoreModule from '../invoiceStoreModule'
-  import InvoiceSidebarSendInvoice from '../InvoiceSidebarSendInvoice.vue'
-  import InvoiceSidebarAddPayment from '../InvoiceSidebarAddPayment.vue'
+  } from 'bootstrap-vue';
+  import vSelect from 'vue-select';
+  import flatPickr from 'vue-flatpickr-component';
+  import invoiceStoreModule from '../invoiceStoreModule';
+  import InvoiceSidebarSendInvoice from '../InvoiceSidebarSendInvoice.vue';
+  import InvoiceSidebarAddPayment from '../InvoiceSidebarAddPayment.vue';
 
   export default {
     components: {
@@ -653,59 +643,59 @@
     watch: {
       // eslint-disable-next-line func-names
       'invoiceData.items': function () {
-        this.initTrHeight()
+        this.initTrHeight();
       },
     },
     mounted() {
-      this.initTrHeight()
+      this.initTrHeight();
     },
     created() {
-      window.addEventListener('resize', this.initTrHeight)
+      window.addEventListener('resize', this.initTrHeight);
     },
     destroyed() {
-      window.removeEventListener('resize', this.initTrHeight)
+      window.removeEventListener('resize', this.initTrHeight);
     },
     methods: {
       addNewItemInItemForm() {
-        this.$refs.form.style.overflow = 'hidden'
-        this.invoiceData.items.push(JSON.parse(JSON.stringify(this.itemFormBlankItem)))
+        this.$refs.form.style.overflow = 'hidden';
+        this.invoiceData.items.push(JSON.parse(JSON.stringify(this.itemFormBlankItem)));
 
         this.$nextTick(() => {
-          this.trAddHeight(this.$refs.row[0].offsetHeight)
+          this.trAddHeight(this.$refs.row[0].offsetHeight);
           setTimeout(() => {
-            this.$refs.form.style.overflow = null
-          }, 350)
-        })
+            this.$refs.form.style.overflow = null;
+          }, 350);
+        });
       },
       removeItem(index) {
-        this.invoiceData.items.splice(index, 1)
-        this.trTrimHeight(this.$refs.row[0].offsetHeight)
+        this.invoiceData.items.splice(index, 1);
+        this.trTrimHeight(this.$refs.row[0].offsetHeight);
       },
       initTrHeight() {
-        this.trSetHeight(null)
+        this.trSetHeight(null);
         this.$nextTick(() => {
-          this.trSetHeight(this.$refs.form ? this.$refs.form.scrollHeight : 0)
-        })
+          this.trSetHeight(this.$refs.form ? this.$refs.form.scrollHeight : 0);
+        });
       },
     },
     setup() {
-      const INVOICE_APP_STORE_MODULE_NAME = 'app-invoice'
+      const INVOICE_APP_STORE_MODULE_NAME = 'app-invoice';
 
       // Register module
-      if (!store.hasModule(INVOICE_APP_STORE_MODULE_NAME)) store.registerModule(INVOICE_APP_STORE_MODULE_NAME, invoiceStoreModule)
+      if (!store.hasModule(INVOICE_APP_STORE_MODULE_NAME)) store.registerModule(INVOICE_APP_STORE_MODULE_NAME, invoiceStoreModule);
 
       // UnRegister on leave
       onUnmounted(() => {
-        if (store.hasModule(INVOICE_APP_STORE_MODULE_NAME)) store.unregisterModule(INVOICE_APP_STORE_MODULE_NAME)
-      })
+        if (store.hasModule(INVOICE_APP_STORE_MODULE_NAME)) store.unregisterModule(INVOICE_APP_STORE_MODULE_NAME);
+      });
 
-      const invoiceData = ref(null)
-      const paymentDetails = ref({})
+      const invoiceData = ref(null);
+      const paymentDetails = ref({});
 
       store.dispatch('app-invoice/fetchInvoice', { id: router.currentRoute.params.id })
-        .then(response => {
-          invoiceData.value = response.data.invoice
-          paymentDetails.value = response.data.paymentDetails
+        .then((response) => {
+          invoiceData.value = response.data.invoice;
+          paymentDetails.value = response.data.paymentDetails;
 
           // ? We are adding some extra data in response for data purpose
           // * Your response will contain this extra data
@@ -715,22 +705,22 @@
             cost: 24,
             qty: 2,
             description: 'Designed UI kit & app pages.',
-          }]
-          invoiceData.value.note = 'It was a pleasure working with you and your team. We hope you will keep us in mind for future freelance projects. Thank You!'
-          invoiceData.value.paymentMethod = 'Bank Account'
+          }];
+          invoiceData.value.note = 'It was a pleasure working with you and your team. We hope you will keep us in mind for future freelance projects. Thank You!';
+          invoiceData.value.paymentMethod = 'Bank Account';
         })
-        .catch(error => {
+        .catch((error) => {
           if (error.response.status === 404) {
-            invoiceData.value = undefined
+            invoiceData.value = undefined;
           }
-        })
+        });
 
       const itemFormBlankItem = {
         item: null,
         cost: 0,
         qty: 0,
         description: '',
-      }
+      };
 
       const itemsOptions = [
         {
@@ -757,20 +747,20 @@
           qty: 1,
           description: 'Native App Development.',
         },
-      ]
+      ];
 
       const updateItemForm = (index, val) => {
-        const { cost, qty, description } = val
-        invoiceData.value.items[index].cost = cost
-        invoiceData.value.items[index].qty = qty
-        invoiceData.value.items[index].description = description
-      }
+        const { cost, qty, description } = val;
+        invoiceData.value.items[index].cost = cost;
+        invoiceData.value.items[index].qty = qty;
+        invoiceData.value.items[index].description = description;
+      };
 
       const paymentMethods = [
         'Bank Account',
         'PayPal',
         'UPI Transfer',
-      ]
+      ];
 
       return {
         invoiceData,
@@ -778,9 +768,9 @@
         updateItemForm,
         itemFormBlankItem,
         paymentMethods,
-      }
+      };
     },
-  }
+  };
 </script>
 
 <style lang="scss">

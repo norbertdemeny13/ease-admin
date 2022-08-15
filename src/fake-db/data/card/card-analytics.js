@@ -1,4 +1,4 @@
-import mock from '@/@fake-db/mock'
+import mock from '@/@fake-db/mock';
 
 const data = {
   supportTracker: {
@@ -84,13 +84,13 @@ const data = {
       },
     ],
   },
-}
+};
 
-mock.onGet('/card/card-analytics/support-tracker').reply(() => [200, data.supportTracker])
-mock.onGet('/card/card-analytics/avg-sessions').reply(() => [200, data.avgSessions])
-mock.onGet('/card/card-analytics/revenue-report').reply(() => [200, data.revenueReport])
-mock.onGet('/card/card-analytics/goal-overview').reply(() => [200, data.goalOverview])
-mock.onGet('/card/card-analytics/revenue').reply(() => [200, data.revenue])
-mock.onGet('/card/card-analytics/product-orders').reply(() => [200, data.productOrders])
-mock.onGet('/card/card-analytics/sessions-device').reply(() => [200, data.sessionsDevice])
-mock.onGet('/card/card-analytics/customers').reply(() => [200, data.customers])
+mock.onGet('/card/card-analytics/support-tracker').reply(() => [200, data.supportTracker]);
+mock.onGet('/card/card-analytics/avg-sessions').reply(() => [200, data.avgSessions]);
+mock.onGet('/card/card-analytics/revenue-report').reply(() => [200, data.revenueReport]);
+mock.onGet('/card/card-analytics/goal-overview').reply(() => [200, data.goalOverview]);
+mock.onGet('/card/card-analytics/revenue').reply(() => [200, data.revenue]);
+mock.onGet('/card/card-analytics/product-orders').reply(() => [200, data.productOrders]);
+mock.onGet('/card/card-analytics/sessions-device').reply(() => [200, data.sessionsDevice]);
+mock.onGet('/card/card-analytics/customers').reply(() => [200, data.customers]);

@@ -12,7 +12,6 @@
       :items="permissionsData"
       class="mb-0"
     >
-
       <template #cell(module)="data">
         {{ data.value }}
       </template>
@@ -22,7 +21,6 @@
           :checked="data.value"
         />
       </template>
-
     </b-table>
   </b-card>
 </template>

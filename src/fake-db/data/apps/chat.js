@@ -1,7 +1,7 @@
-import mock from '@/@fake-db/mock'
+import mock from '@/@fake-db/mock';
 
-const previousDay = new Date(new Date().getTime() - 24 * 60 * 60 * 1000)
-const dayBeforePreviousDay = new Date(new Date().getTime() - 24 * 60 * 60 * 1000 * 2)
+const previousDay = new Date(new Date().getTime() - 24 * 60 * 60 * 1000);
+const dayBeforePreviousDay = new Date(new Date().getTime() - 24 * 60 * 60 * 1000 * 2);
 
 /* eslint-disable global-require */
 const data = {
@@ -203,7 +203,7 @@ const data = {
       ],
     },
   ],
-}
+};
 /* eslint-enable */
 
 // ------------------------------------------------
@@ -211,39 +211,39 @@ const data = {
 // ------------------------------------------------
 mock.onGet('/apps/chat/chats-and-contacts').reply(() => {
   const chatsContacts = data.chats
-    .map(chat => {
-      const contact = data.contacts.find(c => c.id === chat.userId)
-      contact.chat = { id: chat.id, unseenMsgs: chat.unseenMsgs, lastMessage: chat.chat[chat.chat.length - 1] }
-      return contact
+    .map((chat) => {
+      const contact = data.contacts.find(c => c.id === chat.userId);
+      contact.chat = { id: chat.id, unseenMsgs: chat.unseenMsgs, lastMessage: chat.chat[chat.chat.length - 1] };
+      return contact;
     })
-    .reverse()
+    .reverse();
 
   const profileUserData = {
     id: data.profileUser.id,
     avatar: data.profileUser.avatar,
     fullName: data.profileUser.fullName,
     status: data.profileUser.status,
-  }
-  return [200, { chatsContacts, contacts: data.contacts, profileUser: profileUserData }]
-})
+  };
+  return [200, { chatsContacts, contacts: data.contacts, profileUser: profileUserData }];
+});
 
 // ------------------------------------------------
 // GET: Return Single Chat
 // ------------------------------------------------
-mock.onGet('/apps/chat/users/profile-user').reply(() => [200, data.profileUser])
+mock.onGet('/apps/chat/users/profile-user').reply(() => [200, data.profileUser]);
 
 // ------------------------------------------------
 // GET: Return Single Chat
 // ------------------------------------------------
-mock.onGet(/\/apps\/chat\/chats\/\d+/).reply(config => {
+mock.onGet(/\/apps\/chat\/chats\/\d+/).reply((config) => {
   // Get event id from URL
-  let userId = config.url.substring(config.url.lastIndexOf('/') + 1)
+  let userId = config.url.substring(config.url.lastIndexOf('/') + 1);
 
   // Convert Id to number
-  userId = Number(userId)
+  userId = Number(userId);
 
-  const chat = data.chats.find(c => c.userId === userId)
-  if (chat) chat.unseenMsgs = 0
+  const chat = data.chats.find(c => c.userId === userId);
+  if (chat) chat.unseenMsgs = 0;
 
   return [
     200,
@@ -251,46 +251,46 @@ mock.onGet(/\/apps\/chat\/chats\/\d+/).reply(config => {
       chat,
       contact: data.contacts.find(c => c.id === userId),
     },
-  ]
-})
+  ];
+});
 
 // ------------------------------------------------
 // POST: Add new chat message
 // ------------------------------------------------
-mock.onPost(/\/apps\/chat\/chats\/\d+/).reply(config => {
+mock.onPost(/\/apps\/chat\/chats\/\d+/).reply((config) => {
   // Get user id from URL
-  const contactId = Number(config.url.substring(config.url.lastIndexOf('/') + 1))
+  const contactId = Number(config.url.substring(config.url.lastIndexOf('/') + 1));
 
   // Get event from post data
-  const { message, senderId } = JSON.parse(config.data)
+  const { message, senderId } = JSON.parse(config.data);
 
-  let activeChat = data.chats.find(chat => chat.userId === contactId)
+  let activeChat = data.chats.find(chat => chat.userId === contactId);
   const newMessageData = {
     message,
     time: new Date(),
     senderId,
-  }
+  };
 
   // If there's new chat for user create one
-  let isNewChat = false
+  let isNewChat = false;
   if (activeChat === undefined) {
-    isNewChat = true
+    isNewChat = true;
 
-    const { length } = data.chats
-    const lastId = data.chats[length - 1].id
+    const { length } = data.chats;
+    const lastId = data.chats[length - 1].id;
 
     data.chats.push({
       id: lastId + 1,
       userId: contactId,
       unseenMsgs: 0,
       chat: [],
-    })
-    activeChat = data.chats[data.chats.length - 1]
+    });
+    activeChat = data.chats[data.chats.length - 1];
   }
-  activeChat.chat.push(newMessageData)
+  activeChat.chat.push(newMessageData);
 
-  const response = { newMessageData }
-  if (isNewChat) response.chat = activeChat
+  const response = { newMessageData };
+  if (isNewChat) response.chat = activeChat;
 
-  return [201, response]
-})
+  return [201, response];
+});

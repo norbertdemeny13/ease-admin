@@ -17,7 +17,7 @@ export default function useInvoicesList() {
     { key: 'status', sortable: true },
     { key: 'created_at', formatter: (val) => getZonedDateTime(val), sortable: true },
     { key: 'start_time', formatter: (val) => getZonedDateTime(val), sortable: true },
-    { key: 'end_time', formatter: (val) => getZonedDateTime(val), sortable: true },
+    { key: 'elites' },
     { key: 'total', formatter: (val) => `${val} Lei`, sortable: true },
     { key: 'to_pay', formatter: (val) => `${val} Lei`, sortable: true },
     { key: 'actions' },
@@ -104,6 +104,7 @@ export default function useInvoicesList() {
     refInvoiceListTable,
 
     statusFilter,
+    getZonedDateTime,
 
     resolveInvoiceStatusVariantAndIcon,
     resolveClientAvatarVariant,

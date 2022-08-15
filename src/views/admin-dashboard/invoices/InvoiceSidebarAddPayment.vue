@@ -21,7 +21,6 @@
           size="16"
           @click="hide"
         />
-
       </div>
 
       <!-- Body -->
@@ -29,7 +28,6 @@
         class="p-2"
         @submit.prevent
       >
-
         <!-- Invoice Balance -->
         <b-form-group
           label="Invoice Balance"
@@ -122,52 +120,52 @@
 </template>
 
 <script>
-import {
-  BSidebar, BForm, BFormGroup, BFormInput, BFormTextarea, BButton,
-} from 'bootstrap-vue'
-import { ref } from '@vue/composition-api'
-import Ripple from 'vue-ripple-directive'
-import flatPickr from 'vue-flatpickr-component'
-import vSelect from 'vue-select'
+  import {
+    BSidebar, BForm, BFormGroup, BFormInput, BFormTextarea, BButton,
+  } from 'bootstrap-vue';
+  import { ref } from '@vue/composition-api';
+  import Ripple from 'vue-ripple-directive';
+  import flatPickr from 'vue-flatpickr-component';
+  import vSelect from 'vue-select';
 
-export default {
-  components: {
-    BSidebar,
-    BForm,
-    BFormGroup,
-    BFormInput,
-    BFormTextarea,
-    BButton,
+  export default {
+    components: {
+      BSidebar,
+      BForm,
+      BFormGroup,
+      BFormInput,
+      BFormTextarea,
+      BButton,
 
-    flatPickr,
-    vSelect,
-  },
-  directives: {
-    Ripple,
-  },
-  setup() {
-    const paymentMethods = [
-      'Cash',
-      'Bank Transfer',
-      'Debit',
-      'Credit',
-      'Paypal',
-    ]
+      flatPickr,
+      vSelect,
+    },
+    directives: {
+      Ripple,
+    },
+    setup() {
+      const paymentMethods = [
+        'Cash',
+        'Bank Transfer',
+        'Debit',
+        'Credit',
+        'Paypal',
+      ];
 
-    const addPaymentData = ref({
-      invoiceBalance: 5000,
-      paymentAmount: '',
-      paymentDate: '2020-11-11',
-      paymentMethod: null,
-      internalPaymentNote: '',
-    })
+      const addPaymentData = ref({
+        invoiceBalance: 5000,
+        paymentAmount: '',
+        paymentDate: '2020-11-11',
+        paymentMethod: null,
+        internalPaymentNote: '',
+      });
 
-    return {
-      paymentMethods,
-      addPaymentData,
-    }
-  },
-}
+      return {
+        paymentMethods,
+        addPaymentData,
+      };
+    },
+  };
 </script>
 
 <style lang="scss">

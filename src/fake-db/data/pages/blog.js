@@ -1,4 +1,4 @@
-import mock from '@/@fake-db/mock'
+import mock from '@/@fake-db/mock';
 /* eslint-disable global-require */
 const data = {
   // blog list
@@ -154,9 +154,9 @@ const data = {
       '<p>Cupcake ipsum dolor sit. Amet dessert donut candy chocolate bar cotton dessert candy chocolate. Candy muffin danish. Macaroon brownie jelly beans marzipan cheesecake oat cake. Carrot cake macaroon chocolate cake. Jelly brownie jelly. Marzipan pie sweet roll.</p><p><br></p><p>Liquorice dragée cake chupa chups pie cotton candy jujubes bear claw sesame snaps. Fruitcake chupa chups chocolate bonbon lemon drops croissant caramels lemon drops. Candy jelly cake marshmallow jelly beans dragée macaroon. Gummies sugar plum fruitcake. Candy canes candy cupcake caramels cotton candy jujubes fruitcake.</p>',
     featuredImage: require('@/assets/images/slider/03.jpg'),
   },
-}
+};
 /* eslint-disable global-require */
-mock.onGet('/blog/list/data').reply(() => [200, data.blogList])
-mock.onGet('/blog/list/data/sidebar').reply(() => [200, data.blogSidebar])
-mock.onGet('/blog/list/data/detail').reply(() => [200, data.blogDetail])
-mock.onGet('/blog/list/data/edit').reply(() => [200, data.blogEdit])
+mock.onGet('/blog/list/data').reply(() => [200, data.blogList]);
+mock.onGet('/blog/list/data/sidebar').reply(() => [200, data.blogSidebar]);
+mock.onGet('/blog/list/data/detail').reply(() => [200, data.blogDetail]);
+mock.onGet('/blog/list/data/edit').reply(() => [200, data.blogEdit]);

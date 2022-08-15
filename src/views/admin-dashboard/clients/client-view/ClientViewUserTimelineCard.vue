@@ -1,7 +1,6 @@
 <template>
   <b-card title="Documente">
     <app-timeline>
-
       <!-- 12 INVOICES HAVE BEEN PAID -->
       <app-timeline-item>
         <div class="d-flex flex-sm-row flex-column flex-wrap justify-content-between mb-1 mb-sm-0">
@@ -20,7 +19,6 @@
         </p>
       </app-timeline-item>
       <app-timeline-item variant="warning">
-
         <div class="d-flex flex-sm-row flex-column flex-wrap justify-content-between mb-1 mb-sm-0">
           <h6>Client Meeting</h6>
           <small class="text-muted">45 min ago</small>

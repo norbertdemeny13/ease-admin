@@ -9,7 +9,7 @@
       <b-row>
         <b-col
           cols="12"
-          md="4"
+          md="2"
           class="mb-md-0 mb-2"
         >
           <label>City</label>
@@ -19,12 +19,13 @@
             :options="cityOptions"
             class="w-100"
             :reduce="val => val.value"
+            placeholder="Select a city ..."
             @input="(val) => $emit('update:cityFilter', val)"
           />
         </b-col>
         <b-col
           cols="12"
-          md="4"
+          md="2"
           class="mb-md-0 mb-2"
         >
           <label>Status</label>
@@ -34,12 +35,13 @@
             :options="statusOptions"
             class="w-100"
             :reduce="val => val.value"
+            placeholder="Select a status ..."
             @input="(val) => $emit('update:statusFilter', val)"
           />
         </b-col>
         <b-col
           cols="12"
-          md="4"
+          md="2"
           class="mb-md-0 mb-2 d-flex align-items-end"
         >
           <!-- group -->
@@ -64,7 +66,7 @@
               >
                 <template v-if="item.name === 'couple'">
                   <header>{{ $t('generic.message_couple_t1') }}</header>
-                  <b-dropdown-item  v-for="serviceItem in getMassageServices(item, 1).services" :key="serviceItem.id">
+                  <b-dropdown-item v-for="serviceItem in getMassageServices(item, 1).services" :key="serviceItem.id">
                     <div class="checkboxes">
                       <label class="container_check" @click.prevent="onAddService(serviceItem)">
                         {{ $t(serviceItem.name) }}
@@ -76,7 +78,7 @@
                     </div>
                   </b-dropdown-item>
                   <header>{{ $t('generic.message_couple_t2') }}</header>
-                  <b-dropdown-item  v-for="serviceItem in getMassageServices(item, 2).services" :key="serviceItem.id">
+                  <b-dropdown-item v-for="serviceItem in getMassageServices(item, 2).services" :key="serviceItem.id">
                     <div class="checkboxes">
                       <label class="container_check" @click.prevent="onAddService(serviceItem)">
                         {{ $t(serviceItem.name) }}
@@ -88,7 +90,7 @@
                     </div>
                   </b-dropdown-item>
                 </template>
-                <b-dropdown-item v-else v-for="serviceItem in item.services" :key="serviceItem.id">
+                <b-dropdown-item v-for="serviceItem in item.services" v-else :key="serviceItem.id">
                   <div class="checkboxes">
                     <label class="container_check" @click.prevent="onAddService(serviceItem)">
                       {{ $t(serviceItem.name) }}
@@ -99,9 +101,47 @@
                     </label>
                   </div>
                 </b-dropdown-item>
-             </b-dropdown-group>
-           </b-dropdown-group>
+              </b-dropdown-group>
+            </b-dropdown-group>
           </b-dropdown>
+        </b-col>
+        <!-- Search -->
+        <b-col
+          cols="12"
+          md="2"
+          class="mb-md-0 mb-2"
+        >
+          <label>Search Type</label>
+          <v-select
+            :dir="$store.state.appConfig.isRTL ? 'rtl' : 'ltr'"
+            :value="searchType"
+            :options="searchOptions"
+            class="w-100"
+            :reduce="val => val.value"
+            placeholder="Select a search type ..."
+            @input="(val) => $emit('update:searchType', val)"
+          />
+        </b-col>
+        <b-col
+          cols="12"
+          md="2"
+        >
+          <label>Search Value</label>
+          <div class="d-flex align-items-center justify-content-end">
+            <b-form-input
+              v-model="getSearchValue"
+              class="d-inline-block mr-1"
+              placeholder="Search..."
+              @keydown.enter="onSearch"
+            />
+            <b-button
+              variant="primary"
+              :disabled="!searchType"
+              @click="onSearch"
+            >
+              <span class="text-nowrap">Search</span>
+            </b-button>
+          </div>
         </b-col>
       </b-row>
     </b-card-body>
@@ -111,6 +151,7 @@
 <script>
   /* eslint-disable */
   import {
+    BButton,
     BCard,
     BCardHeader,
     BCardBody,
@@ -122,6 +163,7 @@
     BDropdownDivider,
     BDropdownForm,
     BDropdownGroup,
+    BFormInput,
   } from 'bootstrap-vue'
   import vSelect from 'vue-select';
   import Ripple from 'vue-ripple-directive';
@@ -129,6 +171,7 @@
   export default {
     components: {
       BRow,
+      BButton,
       BCol,
       BCard,
       BCardHeader,
@@ -140,6 +183,7 @@
       BDropdownDivider,
       BDropdownForm,
       BDropdownGroup,
+      BFormInput,
     },
     props: {
       serviceFilter: {
@@ -147,6 +191,10 @@
         default: null,
       },
       cityFilter: {
+        type: [String, null],
+        default: null,
+      },
+      searchType: {
         type: [String, null],
         default: null,
       },
@@ -174,10 +222,17 @@
         required: true,
         type: Array,
       },
+      searchOptions: {
+        type: Array,
+        required: true,
+      },
     },
     directives: {
       Ripple,
     },
+    data:() => ({
+      searchQuery: '',
+    }),
     computed: {
       servicesList() {
         const filteredServices = this.services
@@ -187,6 +242,14 @@
             id: item.category,
           }));
         return filteredServices;
+      },
+      getSearchValue: {
+        get() {
+          return this.searchQuery;
+        },
+        set(value) {
+          this.searchQuery = value;
+        },
       },
     },
     methods: {
@@ -204,6 +267,9 @@
           services: services.services.filter(service => service.elites_required === elitesRequired),
         };
         return filteredServices;
+      },
+      onSearch() {
+        this.$emit('on-search', this.searchQuery);
       },
     },
   }

@@ -21,7 +21,6 @@
           size="16"
           @click="hide"
         />
-
       </div>
 
       <!-- Body -->
@@ -29,7 +28,6 @@
         class="p-2"
         @submit.prevent
       >
-
         <!-- Customer Name -->
         <b-form-group
           label="Customer Name"
@@ -123,36 +121,36 @@
 </template>
 
 <script>
-import {
-  BSidebar, BForm, BFormGroup, BFormInput, BFormTextarea, BButton,
-} from 'bootstrap-vue'
-import { ref } from '@vue/composition-api'
-import Ripple from 'vue-ripple-directive'
-import countries from '@/fake-db/data/other/countries'
-import vSelect from 'vue-select'
+  import {
+    BSidebar, BForm, BFormGroup, BFormInput, BFormTextarea, BButton,
+  } from 'bootstrap-vue';
+  import { ref } from '@vue/composition-api';
+  import Ripple from 'vue-ripple-directive';
+  import countries from '@/fake-db/data/other/countries';
+  import vSelect from 'vue-select';
 
-export default {
-  components: {
-    BSidebar, BForm, BFormGroup, BFormInput, BFormTextarea, BButton, vSelect,
-  },
-  directives: {
-    Ripple,
-  },
-  setup() {
-    const customer = ref({
-      name: '',
-      email: '',
-      address: '',
-      country: '',
-      contact: '',
-    })
+  export default {
+    components: {
+      BSidebar, BForm, BFormGroup, BFormInput, BFormTextarea, BButton, vSelect,
+    },
+    directives: {
+      Ripple,
+    },
+    setup() {
+      const customer = ref({
+        name: '',
+        email: '',
+        address: '',
+        country: '',
+        contact: '',
+      });
 
-    return {
-      customer,
-      countries,
-    }
-  },
-}
+      return {
+        customer,
+        countries,
+      };
+    },
+  };
 </script>
 
 <style lang="scss">

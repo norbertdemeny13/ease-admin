@@ -1,4 +1,4 @@
-import mock from '@/@fake-db/mock'
+import mock from '@/@fake-db/mock';
 /* eslint-disable global-require */
 const data = {
   profileData: {
@@ -241,6 +241,6 @@ const data = {
       },
     ],
   },
-}
+};
 /* eslint-disable global-require */
-mock.onGet('/profile/data').reply(() => [200, data.profileData])
+mock.onGet('/profile/data').reply(() => [200, data.profileData]);

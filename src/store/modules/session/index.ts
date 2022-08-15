@@ -4,9 +4,6 @@ import { ActionTree, MutationTree, GetterTree } from 'vuex';
 import { ModuleState, RootState } from '@/store/interfaces';
 import { USER } from '@/interfaces/User';
 import { api } from '@/services/api';
-import instance from '@/main';
-import { nanoid } from 'nanoid';
-import { router } from '@/router';
 
 export interface State extends ModuleState {
   isAuth: boolean;
@@ -54,6 +51,9 @@ export default {
         const { data } = await api.create('admin/sessions', {
           ...credentials,
         });
+        localStorage.setItem('savedCredentials', 'true');
+        localStorage.setItem('email', credentials.email);
+        localStorage.setItem('password', credentials.password);
         commit('setUser', data);
       } catch({ response: reason }) {
         commit('common/setErrors', reason, { root: true });
@@ -66,6 +66,9 @@ export default {
       localStorage.removeItem('jwt');
       localStorage.removeItem('auth');
       localStorage.removeItem('userType');
+      localStorage.removeItem('savedCredentials');
+      localStorage.removeItem('email');
+      localStorage.removeItem('password');
     },
   } as ActionTree<State, RootState>,
 

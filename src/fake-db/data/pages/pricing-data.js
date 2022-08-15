@@ -1,4 +1,4 @@
-import mock from '@/@fake-db/mock'
+import mock from '@/@fake-db/mock';
 /* eslint-disable global-require */
 const data = {
   pricing: {
@@ -74,6 +74,6 @@ const data = {
       },
     ],
   },
-}
+};
 /* eslint-disable global-require */
-mock.onGet('/pricing/data').reply(() => [200, data.pricing])
+mock.onGet('/pricing/data').reply(() => [200, data.pricing]);

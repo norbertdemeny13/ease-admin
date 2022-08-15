@@ -1,4 +1,4 @@
-import mock from '@/@fake-db/mock'
+import mock from '@/@fake-db/mock';
 // import { paginateArray, sortCompare } from '@/@fake-db/utils'
 
 /* eslint-disable global-require */
@@ -275,148 +275,148 @@ const data = {
       isImportant: true,
     },
   ],
-}
+};
 /* eslint-enable */
 
 // ------------------------------------------------
 // GET: Return Tasks
 // ------------------------------------------------
-mock.onGet('/apps/todo/tasks').reply(config => {
+mock.onGet('/apps/todo/tasks').reply((config) => {
   // eslint-disable-next-line object-curly-newline
-  const { q = '', filter, tag, sortBy: sortByParam = 'latest' } = config.params
+  const { q = '', filter, tag, sortBy: sortByParam = 'latest' } = config.params;
   /* eslint-enable */
 
   // ------------------------------------------------
   // Get Sort by and Sort Direction
   // ------------------------------------------------
-  let sortDesc = true
+  let sortDesc = true;
 
   const sortBy = (() => {
     if (sortByParam === 'title-asc') {
-      sortDesc = false
-      return 'title'
+      sortDesc = false;
+      return 'title';
     }
-    if (sortByParam === 'title-desc') return 'title'
+    if (sortByParam === 'title-desc') return 'title';
     if (sortByParam === 'assignee') {
-      sortDesc = false
-      return 'assignee'
+      sortDesc = false;
+      return 'assignee';
     }
     if (sortByParam === 'due-date') {
-      sortDesc = false
-      return 'dueDate'
+      sortDesc = false;
+      return 'dueDate';
     }
-    return 'id'
-  })()
+    return 'id';
+  })();
 
   // ------------------------------------------------
   // Filtering
   // ------------------------------------------------
-  const queryLowered = q.toLowerCase()
+  const queryLowered = q.toLowerCase();
 
-  const hasFilter = task => {
-    if (filter === 'important') return task.isImportant && !task.isDeleted
-    if (filter === 'completed') return task.isCompleted && !task.isDeleted
-    if (filter === 'deleted') return task.isDeleted
-    return !task.isDeleted
-  }
+  const hasFilter = (task) => {
+    if (filter === 'important') return task.isImportant && !task.isDeleted;
+    if (filter === 'completed') return task.isCompleted && !task.isDeleted;
+    if (filter === 'deleted') return task.isDeleted;
+    return !task.isDeleted;
+  };
   /* eslint-disable no-confusing-arrow, implicit-arrow-linebreak, arrow-body-style */
-  const filteredData = data.tasks.filter(task => {
-    return task.title.toLowerCase().includes(queryLowered) && hasFilter(task) && (tag ? task.tags.includes(tag) : true)
-  })
+  const filteredData = data.tasks.filter((task) => {
+    return task.title.toLowerCase().includes(queryLowered) && hasFilter(task) && (tag ? task.tags.includes(tag) : true);
+  });
   /* eslint-enable  */
 
   // ------------------------------------------------
   // Perform sorting
   // ------------------------------------------------
   const sortTasks = key => (a, b) => {
-    let fieldA
-    let fieldB
+    let fieldA;
+    let fieldB;
 
     // If sorting is by dueDate => Convert data to date
     if (key === 'dueDate') {
-      fieldA = new Date(a[key])
-      fieldB = new Date(b[key])
+      fieldA = new Date(a[key]);
+      fieldB = new Date(b[key]);
       // eslint-disable-next-line brace-style
     }
 
     // If sorting is by assignee => Use `fullName` of assignee
     else if (key === 'assignee') {
-      fieldA = a.assignee ? a.assignee.fullName : null
-      fieldB = b.assignee ? b.assignee.fullName : null
+      fieldA = a.assignee ? a.assignee.fullName : null;
+      fieldB = b.assignee ? b.assignee.fullName : null;
     } else {
-      fieldA = a[key]
-      fieldB = b[key]
+      fieldA = a[key];
+      fieldB = b[key];
     }
 
-    let comparison = 0
+    let comparison = 0;
 
     if (fieldA === fieldB) {
-      comparison = 0
+      comparison = 0;
     } else if (fieldA === null) {
-      comparison = 1
+      comparison = 1;
     } else if (fieldB === null) {
-      comparison = -1
+      comparison = -1;
     } else if (fieldA > fieldB) {
-      comparison = 1
+      comparison = 1;
     } else if (fieldA < fieldB) {
-      comparison = -1
+      comparison = -1;
     }
 
-    return comparison
-  }
+    return comparison;
+  };
 
   // Sort Data
-  const sortedData = filteredData.sort(sortTasks(sortBy))
-  if (sortDesc) sortedData.reverse()
+  const sortedData = filteredData.sort(sortTasks(sortBy));
+  if (sortDesc) sortedData.reverse();
 
-  return [200, sortedData]
-})
+  return [200, sortedData];
+});
 
 // ------------------------------------------------
 // POST: Add new task
 // ------------------------------------------------
-mock.onPost('/apps/todo/tasks').reply(config => {
+mock.onPost('/apps/todo/tasks').reply((config) => {
   // Get event from post data
-  const { task } = JSON.parse(config.data)
+  const { task } = JSON.parse(config.data);
 
-  const { length } = data.tasks
-  let lastIndex = 0
+  const { length } = data.tasks;
+  let lastIndex = 0;
   if (length) {
-    lastIndex = data.tasks[length - 1].id
+    lastIndex = data.tasks[length - 1].id;
   }
-  task.id = lastIndex + 1
+  task.id = lastIndex + 1;
 
-  data.tasks.push(task)
+  data.tasks.push(task);
 
-  return [201, { task }]
-})
+  return [201, { task }];
+});
 
 // ------------------------------------------------
 // POST: Update Task
 // ------------------------------------------------
-mock.onPost(/\/apps\/todo\/tasks\/\d+/).reply(config => {
-  const { task: taskData } = JSON.parse(config.data)
+mock.onPost(/\/apps\/todo\/tasks\/\d+/).reply((config) => {
+  const { task: taskData } = JSON.parse(config.data);
 
   // Convert Id to number
-  taskData.id = Number(taskData.id)
+  taskData.id = Number(taskData.id);
 
-  const task = data.tasks.find(e => e.id === Number(taskData.id))
-  Object.assign(task, taskData)
+  const task = data.tasks.find(e => e.id === Number(taskData.id));
+  Object.assign(task, taskData);
 
-  return [200, { task }]
-})
+  return [200, { task }];
+});
 
 // ------------------------------------------------
 // DELETE: Remove Task
 // ------------------------------------------------
-mock.onDelete(/\/apps\/todo\/tasks\/\d+/).reply(config => {
+mock.onDelete(/\/apps\/todo\/tasks\/\d+/).reply((config) => {
   // Get task id from URL
-  let taskId = config.url.substring(config.url.lastIndexOf('/') + 1)
+  let taskId = config.url.substring(config.url.lastIndexOf('/') + 1);
 
   // Convert Id to number
-  taskId = Number(taskId)
+  taskId = Number(taskId);
 
-  const task = data.tasks.find(t => t.id === taskId)
-  Object.assign(task, { isDeleted: true })
-  return [200]
-})
+  const task = data.tasks.find(t => t.id === taskId);
+  Object.assign(task, { isDeleted: true });
+  return [200];
+});

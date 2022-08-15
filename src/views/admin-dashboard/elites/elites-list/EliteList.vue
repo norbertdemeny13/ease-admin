@@ -1,7 +1,5 @@
 <template>
-
   <div>
-
     <user-list-add-new
       :is-add-new-user-sidebar-active.sync="isAddNewUserSidebarActive"
       :city-options="cityOptions"
@@ -19,6 +17,9 @@
       :status-options="statusOptions"
       :services="getServices"
       :service-ids="serviceIds"
+      :search-type.sync="searchType"
+      :search-options="searchOptions"
+      @on-search="onSearch"
     />
 
     <!-- Table Container Card -->
@@ -38,7 +39,6 @@
         empty-text="No matching records found"
         :sort-desc.sync="isSortDirDesc"
       >
-
         <!-- Column: User -->
         <template #cell(user)="data">
           <b-media vertical-align="center">
@@ -97,7 +97,6 @@
             no-caret
             :right="$store.state.appConfig.isRTL"
           >
-
             <template #button-content>
               <feather-icon
                 icon="MoreVerticalIcon"
@@ -121,11 +120,9 @@
             </b-dropdown-item>
           </b-dropdown>
         </template>
-
       </b-table>
       <div class="mx-2 mb-2">
         <b-row>
-
           <b-col
             cols="12"
             sm="6"
@@ -139,7 +136,6 @@
             sm="6"
             class="d-flex align-items-center justify-content-center justify-content-sm-end"
           >
-
             <b-pagination
               v-model="dataMeta.page"
               :total-rows="dataMeta.count"
@@ -163,9 +159,7 @@
                 />
               </template>
             </b-pagination>
-
           </b-col>
-
         </b-row>
       </div>
     </b-card>
@@ -232,7 +226,9 @@
         city_id: null,
         status: null,
         service: null,
+        searchQuery: '',
       },
+      searchType: null,
       serviceIds: [],
     }),
 
@@ -283,6 +279,10 @@
         fetchElites: 'admin/fetchElites',
         fetchServices: 'services/fetchServices',
       }),
+      onSearch(data) {
+        this.dataMeta.searchQuery = data;
+        this.fetchElites({ ...this.dataMeta, [this.searchType]: data });
+      },
       setMeta(meta) {
         this.dataMeta = { 
           ...this.dataMeta,
@@ -295,9 +295,15 @@
           page: meta.page,
         };
       },
-      refetchData() {
-        const { dataMeta, serviceIds } = this;
-        this.fetchElites({ ...dataMeta, serviceIds });
+      async refetchData() {
+        const { dataMeta, serviceIds, searchType } = this;
+        let newData = { ...dataMeta, serviceIds };
+
+        if (searchType) {
+          newData = { ...newData, [searchType]: dataMeta.searchQuery };
+        }
+
+        await this.fetchElites(newData);
       },
     },
     setup() {
@@ -330,6 +336,13 @@
         { label: 'Active', value: 'active' },
         { label: 'Paused', value: 'paused' },
         { label: 'Blocked', value: 'blocked' },
+      ]
+
+      const searchOptions = [
+        { label: 'Name', value: 'name' },
+        { label: 'Elite Id', value: 'elite_id' },
+        { label: 'Phone Number', value: 'phone_number' },
+        { label: 'Email', value: 'email' },
       ]
 
       const {
@@ -377,6 +390,7 @@
         cityOptions,
         serviceOptions,
         statusOptions,
+        searchOptions,
 
         // Extra Filters
         cityFilter,

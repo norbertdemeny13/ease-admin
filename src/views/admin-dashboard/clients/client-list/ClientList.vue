@@ -1,7 +1,5 @@
 <template>
-
   <div>
-
     <user-list-add-new
       :is-add-new-user-sidebar-active.sync="isAddNewUserSidebarActive"
       :city-options="cityOptions"
@@ -17,6 +15,9 @@
       :city-options="cityOptions"
       :service-options="serviceOptions"
       :status-options="statusOptions"
+      :search-type.sync="searchType"
+      :search-options="searchOptions"
+      @on-search="onSearch"
     />
 
     <!-- Table Container Card -->
@@ -36,7 +37,6 @@
         empty-text="No matching records found"
         :sort-desc.sync="isSortDirDesc"
       >
-
         <!-- Column: User -->
         <template #cell(user)="data">
           <b-media vertical-align="center">
@@ -71,11 +71,9 @@
         <template #cell(last_reservation_date)="data">
           {{ data.item.last_reservation_date ? data.item.last_reservation_date.substr(0, 10) : '-' }}
         </template>
-
       </b-table>
       <div class="mx-2 mb-2">
         <b-row>
-
           <b-col
             cols="12"
             sm="6"
@@ -89,7 +87,6 @@
             sm="6"
             class="d-flex align-items-center justify-content-center justify-content-sm-end"
           >
-
             <b-pagination
               v-model="dataMeta.page"
               :total-rows="dataMeta.count"
@@ -113,9 +110,7 @@
                 />
               </template>
             </b-pagination>
-
           </b-col>
-
         </b-row>
       </div>
     </b-card>
@@ -181,7 +176,9 @@
         city_id: null,
         status: null,
         service: null,
+        searchQuery: '',
       },
+      searchType: null,
     }),
 
     created() {
@@ -220,6 +217,10 @@
       ...mapActions({
         fetchClients: 'admin/fetchClients',
       }),
+      onSearch(data) {
+        this.dataMeta.searchQuery = data;
+        this.fetchClients({ ...this.dataMeta, [this.searchType]: data });
+      },
       getInitials(item) {
         const firstNameI = item.full_name?.split(' ').map(n => n[0]).join('');
         return `${firstNameI}`;
@@ -236,9 +237,15 @@
           page: meta.page,
         };
       },
-      refetchData() {
-        const { dataMeta } = this;
-        this.fetchClients({ ...dataMeta });
+      async refetchData() {
+        const { dataMeta, searchType } = this;
+        let newData = { ...dataMeta };
+
+        if (searchType) {
+          newData = { ...newData, [searchType]: dataMeta.searchQuery };
+        }
+
+        await this.fetchClients(newData);
       },
     },
     setup() {
@@ -261,6 +268,12 @@
         { label: 'Active', value: 'active' },
         { label: 'Paused', value: 'paused' },
         { label: 'Blocked', value: 'blocked' },
+      ]
+
+      const searchOptions = [
+        { label: 'Name', value: 'name' },
+        { label: 'Phone Number', value: 'phone_number' },
+        { label: 'Email', value: 'email' },
       ]
 
       const {
@@ -308,6 +321,7 @@
         cityOptions,
         serviceOptions,
         statusOptions,
+        searchOptions,
 
         // Extra Filters
         cityFilter,

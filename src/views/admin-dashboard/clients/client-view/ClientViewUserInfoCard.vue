@@ -1,8 +1,6 @@
 <template>
   <b-card>
-
     <b-row>
-
       <!-- User Info: Left col -->
       <b-col
         cols="21"
@@ -25,8 +23,8 @@
             </div>
             <div class="d-flex flex-wrap">
               <b-button
-                variant="primary"
                 v-b-modal.modal-credit
+                variant="primary"
               >
                 Add credit
               </b-button>
@@ -101,7 +99,7 @@
               <span class="font-weight-bold">City</span>
             </th>
             <td class="pb-50 text-capitalize">
-              {{ $t(userData.default_address.city.name) }}
+              {{ getCityName }}
             </td>
           </tr>
           <tr>
@@ -184,6 +182,9 @@
     computed: {
       getImageSource() {
         return this.userData?.avatar?.url;
+      },
+      getCityName() {
+        return this.$t(this.userData.default_address?.city?.name);
       },
     },
     methods: {

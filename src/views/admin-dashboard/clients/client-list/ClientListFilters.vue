@@ -10,17 +10,36 @@
         <!-- Search -->
         <b-col
           cols="12"
-          md="6"
+          md="2"
+          class="mb-md-0 mb-2"
         >
+          <label>Search Type</label>
+          <v-select
+            :dir="$store.state.appConfig.isRTL ? 'rtl' : 'ltr'"
+            :value="searchType"
+            :options="searchOptions"
+            class="w-100"
+            :reduce="val => val.value"
+            placeholder="Select a search type ..."
+            @input="(val) => $emit('update:searchType', val)"
+          />
+        </b-col>
+        <b-col
+          cols="12"
+          md="2"
+        >
+          <label>Search Value</label>
           <div class="d-flex align-items-center justify-content-end">
             <b-form-input
-              v-model="searchQuery"
+              v-model="getSearchValue"
               class="d-inline-block mr-1"
               placeholder="Search..."
+              @keydown.enter="onSearch"
             />
             <b-button
               variant="primary"
-              @click="isAddNewUserSidebarActive = true"
+              :disabled="!searchType"
+              @click="onSearch"
             >
               <span class="text-nowrap">Search</span>
             </b-button>
@@ -69,27 +88,11 @@
       BButton,
     },
     props: {
-      serviceFilter: {
+      searchType: {
         type: [String, null],
         default: null,
       },
-      cityFilter: {
-        type: [String, null],
-        default: null,
-      },
-      statusFilter: {
-        type: [String, null],
-        default: null,
-      },
-      cityOptions: {
-        type: Array,
-        required: true,
-      },
-      serviceOptions: {
-        type: Array,
-        required: true,
-      },
-      statusOptions: {
+      searchOptions: {
         type: Array,
         required: true,
       },
@@ -109,6 +112,19 @@
             id: item.category,
           }));
         return filteredServices;
+      },
+      getSearchValue: {
+        get() {
+          return this.searchQuery;
+        },
+        set(value) {
+          this.searchQuery = value;
+        },
+      },
+    },
+    methods: {
+      onSearch() {
+        this.$emit('on-search', this.searchQuery);
       },
     },
   }

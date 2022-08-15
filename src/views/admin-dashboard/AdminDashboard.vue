@@ -253,15 +253,6 @@
       };
     },
 
-    watch: {
-      getUser(newVal, oldVal) {
-        const isDifferent = !isEqual(newVal, oldVal);
-        if (isDifferent && newVal?.email && newVal?.name) {
-          this.$router.push('/profesionisti').catch(()=>{});;
-        }
-      },
-    },
-
     methods: {
       ...mapActions({
         login: 'session/login',

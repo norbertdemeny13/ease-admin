@@ -1,4 +1,4 @@
-import mock from '@/@fake-db/mock'
+import mock from '@/@fake-db/mock';
 /* eslint-disable global-require */
 const data = {
   tableBasic: [
@@ -370,9 +370,9 @@ const data = {
     },
   ],
   /* eslint-disable global-require */
-}
+};
 
-mock.onGet('/good-table/basic').reply(() => [200, data.tableBasic])
-mock.onGet('/good-table/row-group').reply(() => [200, data.tableRowGrp])
-mock.onGet('/good-table/advanced-search').reply(() => [200, data.tableAdvancedSearch])
-mock.onGet('/good-table/table_ssr').reply(() => [200, data.tableSsr])
+mock.onGet('/good-table/basic').reply(() => [200, data.tableBasic]);
+mock.onGet('/good-table/row-group').reply(() => [200, data.tableRowGrp]);
+mock.onGet('/good-table/advanced-search').reply(() => [200, data.tableAdvancedSearch]);
+mock.onGet('/good-table/table_ssr').reply(() => [200, data.tableSsr]);

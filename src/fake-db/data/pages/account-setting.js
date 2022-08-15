@@ -1,4 +1,4 @@
-import mock from '@/@fake-db/mock'
+import mock from '@/@fake-db/mock';
 /* eslint-disable global-require */
 const data = {
   accountSetting: {
@@ -47,6 +47,6 @@ const data = {
       blogDigest: false,
     },
   },
-}
+};
 /* eslint-disable global-require */
-mock.onGet('/account-setting/data').reply(() => [200, data.accountSetting])
+mock.onGet('/account-setting/data').reply(() => [200, data.accountSetting]);

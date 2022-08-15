@@ -1,4 +1,4 @@
-import mock from '@/@fake-db/mock'
+import mock from '@/@fake-db/mock';
 
 /* eslint-disable global-require */
 const data = {
@@ -740,23 +740,23 @@ const data = {
       isRead: true,
     },
   ],
-}
+};
 /* eslint-enable */
 
 // ------------------------------------------------
 // GET: Return Emails
 // ------------------------------------------------
-mock.onGet('/apps/email/emails').reply(config => {
+mock.onGet('/apps/email/emails').reply((config) => {
   // eslint-disable-next-line object-curly-newline
-  const { q = '', folder = 'inbox', label } = config.params
+  const { q = '', folder = 'inbox', label } = config.params;
   /* eslint-enable */
 
-  const queryLowered = q.toLowerCase()
+  const queryLowered = q.toLowerCase();
 
   function isInFolder(email) {
-    if (folder === 'trash') return email.folder === 'trash'
-    if (folder === 'starred') return email.isStarred && email.folder !== 'trash'
-    return email.folder === (folder || email.folder) && email.folder !== 'trash'
+    if (folder === 'trash') return email.folder === 'trash';
+    if (folder === 'starred') return email.isStarred && email.folder !== 'trash';
+    return email.folder === (folder || email.folder) && email.folder !== 'trash';
 
     // email.folder === (folder || email.folder)
 
@@ -772,7 +772,7 @@ mock.onGet('/apps/email/emails').reply(config => {
       email.subject.toLowerCase().includes(queryLowered) &&
       isInFolder(email) &&
       (label ? email.labels.includes(label) : true),
-  )
+  );
   /* eslint-enable  */
 
   // ------------------------------------------------
@@ -782,7 +782,7 @@ mock.onGet('/apps/email/emails').reply(config => {
     inbox: data.emails.filter(email => !email.isDeleted && !email.isRead && email.folder === 'inbox').length,
     draft: data.emails.filter(email => email.folder === 'draft').length,
     spam: data.emails.filter(email => !email.isDeleted && !email.isRead && email.folder === 'spam').length,
-  }
+  };
 
   return [
     200,
@@ -790,57 +790,57 @@ mock.onGet('/apps/email/emails').reply(config => {
       emails: filteredData.reverse(),
       emailsMeta,
     },
-  ]
-})
+  ];
+});
 
 // ------------------------------------------------
 // POST: Update Email
 // ------------------------------------------------
-mock.onPost('/apps/email/update-emails').reply(config => {
-  const { emailIds, dataToUpdate } = JSON.parse(config.data)
+mock.onPost('/apps/email/update-emails').reply((config) => {
+  const { emailIds, dataToUpdate } = JSON.parse(config.data);
 
   function updateMailData(email) {
-    Object.assign(email, dataToUpdate)
+    Object.assign(email, dataToUpdate);
   }
 
-  data.emails.forEach(email => {
-    if (emailIds.includes(email.id)) updateMailData(email)
-  })
+  data.emails.forEach((email) => {
+    if (emailIds.includes(email.id)) updateMailData(email);
+  });
 
-  return [200]
-})
+  return [200];
+});
 
 // ------------------------------------------------
 // POST: Update Emails Label
 // ------------------------------------------------
-mock.onPost('/apps/email/update-emails-label').reply(config => {
-  const { emailIds, label } = JSON.parse(config.data)
+mock.onPost('/apps/email/update-emails-label').reply((config) => {
+  const { emailIds, label } = JSON.parse(config.data);
 
   function updateMailLabels(email) {
-    const labelIndex = email.labels.indexOf(label)
+    const labelIndex = email.labels.indexOf(label);
 
-    if (labelIndex === -1) email.labels.push(label)
-    else email.labels.splice(labelIndex, 1)
+    if (labelIndex === -1) email.labels.push(label);
+    else email.labels.splice(labelIndex, 1);
   }
 
-  data.emails.forEach(email => {
-    if (emailIds.includes(email.id)) updateMailLabels(email)
-  })
+  data.emails.forEach((email) => {
+    if (emailIds.includes(email.id)) updateMailLabels(email);
+  });
 
-  return [200]
-})
+  return [200];
+});
 
 // ------------------------------------------------
 // GET: Paginate Existing Email
 // ------------------------------------------------
-mock.onGet('/apps/email/paginate-email').reply(config => {
-  const { dir, emailId } = config.params
+mock.onGet('/apps/email/paginate-email').reply((config) => {
+  const { dir, emailId } = config.params;
 
-  const currentEmailIndex = data.emails.findIndex(e => e.id === emailId)
+  const currentEmailIndex = data.emails.findIndex(e => e.id === emailId);
 
-  const newEmailIndex = dir === 'previous' ? currentEmailIndex - 1 : currentEmailIndex + 1
+  const newEmailIndex = dir === 'previous' ? currentEmailIndex - 1 : currentEmailIndex + 1;
 
-  const newEmail = data.emails[newEmailIndex]
+  const newEmail = data.emails[newEmailIndex];
 
-  return newEmail ? [200, newEmail] : [404]
-})
+  return newEmail ? [200, newEmail] : [404];
+});

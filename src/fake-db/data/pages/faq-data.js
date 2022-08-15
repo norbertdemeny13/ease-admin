@@ -1,4 +1,4 @@
-import mock from '@/@fake-db/mock'
+import mock from '@/@fake-db/mock';
 /* eslint-disable global-require */
 const data = {
   faqData: {
@@ -184,24 +184,24 @@ const data = {
       ],
     },
   },
-}
+};
 
-mock.onGet('/faq/data').reply(config => {
-  const { q = '' } = config.params
-  const queryLowered = q.toLowerCase()
+mock.onGet('/faq/data').reply((config) => {
+  const { q = '' } = config.params;
+  const queryLowered = q.toLowerCase();
 
-  const filteredData = {}
+  const filteredData = {};
 
-  Object.entries(data.faqData).forEach(entry => {
-    const [categoryName, categoryObj] = entry
+  Object.entries(data.faqData).forEach((entry) => {
+    const [categoryName, categoryObj] = entry;
     // eslint-disable-next-line arrow-body-style
-    const filteredQAndAOfCategory = categoryObj.qandA.filter(qAndAObj => {
-      return qAndAObj.question.toLowerCase().includes(queryLowered)
-    })
+    const filteredQAndAOfCategory = categoryObj.qandA.filter((qAndAObj) => {
+      return qAndAObj.question.toLowerCase().includes(queryLowered);
+    });
     if (filteredQAndAOfCategory.length) {
-      filteredData[categoryName] = { ...categoryObj, qandA: filteredQAndAOfCategory }
+      filteredData[categoryName] = { ...categoryObj, qandA: filteredQAndAOfCategory };
     }
-  })
+  });
 
-  return [200, filteredData]
-})
+  return [200, filteredData];
+});

@@ -1,5 +1,5 @@
-import mock from '@/@fake-db/mock'
-import { paginateArray, sortCompare } from '@/@fake-db/utils'
+import mock from '@/@fake-db/mock';
+import { paginateArray, sortCompare } from '@/@fake-db/utils';
 
 /* eslint-disable global-require */
 const data = {
@@ -655,13 +655,13 @@ const data = {
       avatar: require('@/assets/images/avatars/9.png'),
     },
   ],
-}
+};
 /* eslint-enable */
 
 // ------------------------------------------------
 // GET: Return Users
 // ------------------------------------------------
-mock.onGet('/apps/user/users').reply(config => {
+mock.onGet('/apps/user/users').reply((config) => {
   // eslint-disable-next-line object-curly-newline
   const {
     q = '',
@@ -672,10 +672,10 @@ mock.onGet('/apps/user/users').reply(config => {
     role = null,
     plan = null,
     status = null,
-  } = config.params
+  } = config.params;
   /* eslint-enable */
 
-  const queryLowered = q.toLowerCase()
+  const queryLowered = q.toLowerCase();
   const filteredData = data.users.filter(
     user =>
       /* eslint-disable operator-linebreak, implicit-arrow-linebreak */
@@ -683,11 +683,11 @@ mock.onGet('/apps/user/users').reply(config => {
       user.role === (role || user.role) &&
       user.currentPlan === (plan || user.currentPlan) &&
       user.status === (status || user.status),
-  )
+  );
   /* eslint-enable  */
 
-  const sortedData = filteredData.sort(sortCompare(sortBy))
-  if (sortDesc) sortedData.reverse()
+  const sortedData = filteredData.sort(sortCompare(sortBy));
+  if (sortDesc) sortedData.reverse();
 
   return [
     200,
@@ -695,44 +695,44 @@ mock.onGet('/apps/user/users').reply(config => {
       users: paginateArray(sortedData, perPage, page),
       total: filteredData.length,
     },
-  ]
-})
+  ];
+});
 
 // ------------------------------------------------
 // POST: Add new user
 // ------------------------------------------------
-mock.onPost('/apps/user/users').reply(config => {
+mock.onPost('/apps/user/users').reply((config) => {
   // Get event from post data
-  const { user } = JSON.parse(config.data)
+  const { user } = JSON.parse(config.data);
 
   // Assign Status
-  user.status = 'active'
+  user.status = 'active';
 
-  const { length } = data.users
-  let lastIndex = 0
+  const { length } = data.users;
+  let lastIndex = 0;
   if (length) {
-    lastIndex = data.users[length - 1].id
+    lastIndex = data.users[length - 1].id;
   }
-  user.id = lastIndex + 1
+  user.id = lastIndex + 1;
 
-  data.users.push(user)
+  data.users.push(user);
 
-  return [201, { user }]
-})
+  return [201, { user }];
+});
 
 // ------------------------------------------------
 // GET: Return Single User
 // ------------------------------------------------
-mock.onGet(/\/apps\/user\/users\/\d+/).reply(config => {
+mock.onGet(/\/apps\/user\/users\/\d+/).reply((config) => {
   // Get event id from URL
-  let userId = config.url.substring(config.url.lastIndexOf('/') + 1)
+  let userId = config.url.substring(config.url.lastIndexOf('/') + 1);
 
   // Convert Id to number
-  userId = Number(userId)
+  userId = Number(userId);
 
-  const userIndex = data.users.findIndex(e => e.id === userId)
-  const user = data.users[userIndex]
+  const userIndex = data.users.findIndex(e => e.id === userId);
+  const user = data.users[userIndex];
 
-  if (user) return [200, user]
-  return [404]
-})
+  if (user) return [200, user];
+  return [404];
+});

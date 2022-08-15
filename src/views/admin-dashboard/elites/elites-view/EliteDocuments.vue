@@ -43,7 +43,7 @@
         <div class="document-type d-flex flex-column">
           <h3>{{ $t('views.pro_dashboard.qualification_certificate') }}</h3>
           <div v-if="userData.certificate_of_calification && userData.certificate_of_calification.length" class="documents-container">
-            <p v-for="(file, i) in userData.certificate_of_calification" :key="file.id" class="info text-secondary"><a :href="file.url" target="_blank" download>{{ file.filename }}</a><span class="delete-btn ml-4" @click="onRemove('certificate_of_calification', i)"></span></p>
+            <p v-for="(file, i) in userData.certificate_of_calification" :key="file.id" class="info text-secondary"><a :href="file.url" target="_blank" download>{{ file.filename }}</a><span class="delete-btn ml-4" @click="onRemove('certificate_of_calification', i)" /></p>
           </div>
         </div>
         <div class="d-flex">
@@ -63,7 +63,7 @@
         <div class="document-type d-flex flex-column">
           <h3>{{ $t('views.pro_dashboard.identity_card') }}</h3>
           <div v-if="userData.id_card && userData.id_card.length" class="documents-container">
-            <p v-for="(file, i) in userData.id_card" :key="file.id" class="info text-secondary"><a :href="file.url" target="_blank" download>{{ file.filename }}</a><span class="delete-btn ml-4" @click="onRemove('id_card', i)"></span></p>
+            <p v-for="(file, i) in userData.id_card" :key="file.id" class="info text-secondary"><a :href="file.url" target="_blank" download>{{ file.filename }}</a><span class="delete-btn ml-4" @click="onRemove('id_card', i)" /></p>
           </div>
         </div>
         <div class="d-flex">
@@ -83,7 +83,7 @@
         <div class="document-type d-flex flex-column">
           <h3>{{ $t('views.pro_dashboard.register_certificate') }}</h3>
           <div v-if="userData.certificate_of_registration && userData.certificate_of_registration.length" class="documents-container">
-            <p v-for="(file, i) in userData.certificate_of_registration" :key="file.id" class="info text-secondary"><a :href="file.url" target="_blank" download>{{ file.filename }}</a><span class="delete-btn ml-4" @click="onRemove('certificate_of_registration', i)"></span></p>
+            <p v-for="(file, i) in userData.certificate_of_registration" :key="file.id" class="info text-secondary"><a :href="file.url" target="_blank" download>{{ file.filename }}</a><span class="delete-btn ml-4" @click="onRemove('certificate_of_registration', i)" /></p>
           </div>
         </div>
         <div class="d-flex">
@@ -103,7 +103,7 @@
         <div class="document-type d-flex flex-column">
           <h3>{{ $t('views.pro_dashboard.professional_liability_insurance') }}</h3>
           <div v-if="userData.practice_insurance && userData.practice_insurance.length" class="documents-container">
-            <p v-for="(file, i) in userData.practice_insurance" :key="file.id" class="info text-secondary"><a :href="file.url" target="_blank" download>{{ file.filename }}</a><span class="delete-btn ml-4" @click="onRemove('practice_insurance', i)"></span></p>
+            <p v-for="(file, i) in userData.practice_insurance" :key="file.id" class="info text-secondary"><a :href="file.url" target="_blank" download>{{ file.filename }}</a><span class="delete-btn ml-4" @click="onRemove('practice_insurance', i)" /></p>
           </div>
         </div>
         <div class="d-flex">
@@ -123,7 +123,7 @@
         <div class="document-type d-flex flex-column">
           <h3>{{ $t('views.pro_dashboard.criminal_record_certificate') }}</h3>
           <div v-if="userData.criminal_record && userData.criminal_record.length" class="documents-container">
-            <p v-for="(file, i) in userData.criminal_record" :key="file.id" class="info text-secondary"><a :href="file.url" target="_blank" download>{{ file.filename }}</a><span class="delete-btn ml-4" @click="onRemove('criminal_record', i)"></span></p>
+            <p v-for="(file, i) in userData.criminal_record" :key="file.id" class="info text-secondary"><a :href="file.url" target="_blank" download>{{ file.filename }}</a><span class="delete-btn ml-4" @click="onRemove('criminal_record', i)" /></p>
           </div>
         </div>
         <div class="d-flex">
@@ -143,13 +143,13 @@
         <div class="document-type d-flex flex-column">
           <h3>{{ $t('views.pro_dashboard.equipment_photos') }}</h3>
           <div v-if="userData.equipment_photos && userData.equipment_photos.length" class="documents-container">
-            <p v-for="(file, i) in userData.equipment_photos" :key="file.id" class="info text-secondary"><a :href="file.url" target="_blank" download>{{ file.filename }}</a><span class="delete-btn ml-4" @click="onRemove('equipment_photos', i)"></span></p>
+            <p v-for="(file, i) in userData.equipment_photos" :key="file.id" class="info text-secondary"><a :href="file.url" target="_blank" download>{{ file.filename }}</a><span class="delete-btn ml-4" @click="onRemove('equipment_photos', i)" /></p>
           </div>
         </div>
         <div class="d-flex">
           <div v-if="!disabled" class="media d-flex flex-column">
             <b-form-checkbox
-              v-model="    isEquipmentPhotosConfirmed"
+              v-model=" isEquipmentPhotosConfirmed"
               class="custom-control-success"
               switch
             />
