@@ -324,7 +324,7 @@
         }
 
         if (sortBy) {
-          newData = { ...newData, [sortBy]: isSortDirDesc ? 'desc' : 'asc' };
+          newData = { ...newData, order: isSortDirDesc ? 'desc' : 'asc', field: sortBy };
         }
 
         await this.fetchElites(newData);
