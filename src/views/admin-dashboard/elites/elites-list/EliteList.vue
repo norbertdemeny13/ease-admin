@@ -279,6 +279,10 @@
         }
       },
       isSortDirDesc(newVal, oldVal) {
+        if(this.dataMeta.page !== 1) {
+          this.dataMeta.page = 1;
+        }
+
         if(newVal !== oldVal) {
           this.refetchData();
         }

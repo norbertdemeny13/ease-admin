@@ -108,7 +108,7 @@
         <!-- Search -->
         <b-col
           cols="12"
-          md="3"
+          md="2"
           class="mb-md-0 mb-2"
         >
           <label>Search Type</label>
@@ -124,7 +124,7 @@
         </b-col>
         <b-col
           cols="12"
-          md="3"
+          md="4"
         >
           <label>Search Value</label>
           <div class="d-flex align-items-center justify-content-end">
