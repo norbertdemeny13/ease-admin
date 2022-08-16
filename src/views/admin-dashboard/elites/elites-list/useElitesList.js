@@ -14,7 +14,7 @@ export default function useUsersList() {
 
   // Table Handlers
   const tableColumns = [
-    { key: 'user', label: 'Profesionist', sortable: true },
+    { key: 'id', label: 'Profesionist', sortable: true },
     { key: 'working_city_name', label: 'Oras', sortable: true },
     { key: 'jobs_count', label: 'Rezervari', sortable: true },
     {

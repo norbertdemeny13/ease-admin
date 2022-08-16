@@ -40,7 +40,7 @@
         :sort-desc.sync="isSortDirDesc"
       >
         <!-- Column: User -->
-        <template #cell(user)="data">
+        <template #cell(id)="data">
           <b-media vertical-align="center">
             <template #aside>
               <b-avatar
@@ -273,6 +273,16 @@
           this.refetchData();
         }
       },
+      sortBy(newVal, oldVal) {
+        if(newVal !== oldVal) {
+          this.refetchData();
+        }
+      },
+      isSortDirDesc(newVal, oldVal) {
+        if(newVal !== oldVal) {
+          this.refetchData();
+        }
+      },
     },
     methods: {
       ...mapActions({
@@ -296,11 +306,21 @@
         };
       },
       async refetchData() {
-        const { dataMeta, serviceIds, searchType } = this;
+        const {
+          dataMeta,
+          serviceIds,
+          searchType,
+          sortBy,
+          isSortDirDesc
+        } = this;
         let newData = { ...dataMeta, serviceIds };
 
         if (searchType) {
           newData = { ...newData, [searchType]: dataMeta.searchQuery };
+        }
+
+        if (sortBy) {
+          newData = { ...newData, [sortBy]: isSortDirDesc ? 'desc' : 'asc' };
         }
 
         await this.fetchElites(newData);

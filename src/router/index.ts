@@ -104,8 +104,6 @@ router.beforeEach(async (to, from, next) => {
   const email = localStorage.getItem('email');
   const password = localStorage.getItem('password');
   
-  console.log(to, 'to');
-
   if (!!savedCredentials && email && password) {
     store.dispatch('session/login', {
       credentials: {

@@ -32,7 +32,7 @@
         <!-- Form -->
         <b-form
           class="p-2"
-          @submit.prevent="handleSubmit(onSubmit)"
+          @submit.prevent="handleSubmit"
           @reset.prevent="resetForm"
         >
 
@@ -250,6 +250,25 @@
 
             </b-form-group>
 
+          <b-form-group
+            label="Poza cod promo"
+          >
+            <div class="promo-code-container">
+              <figure>
+                <img v-if="image" :src="image" alt="Promo Code">
+                <div v-else class="image-placeholder"></div>
+                <input
+                  id="promo-code"
+                  ref="promo-code"
+                  class="change-promo-code"
+                  type="file"
+                  @change="handleFileUpload()"
+                >
+                <i class="icon_camera" @click.prevent="$refs['promo-code'].click()" />
+              </figure>
+            </div>
+          </b-form-group>
+
           <!-- Form Actions -->
           <div class="d-flex mt-2">
             <b-button
@@ -287,13 +306,12 @@
     BDropdownForm,
     BDropdownGroup,
   } from 'bootstrap-vue';
+  import { nanoid } from 'nanoid';
   import { ref } from '@vue/composition-api';
   import { Datepicker } from '@/components/shared/datepicker';
-  import { required, alphaNum, email } from '@/validations/validators'
   import formValidation from '@/core/comp-functions/forms/form-validation'
   import Ripple from 'vue-ripple-directive'
   import vSelect from 'vue-select'
-  import countries from '@/fake-db/data/other/countries'
   import { store } from '@/store'
 
   export default {
@@ -329,10 +347,8 @@
     },
     data() {
       return {
-        required,
-        alphaNum,
-        email,
-        countries,
+        image: '',
+        promo_code: {},
       }
     },
     created() {
@@ -341,6 +357,7 @@
     computed: {
       ...mapGetters({
         getServices: 'services/getServices',
+        getPromoCodeStatus: 'admin/getPromoCodeStatus',
       }),
       servicesList() {
         const filteredServices = this.getServices
@@ -352,9 +369,23 @@
         return filteredServices;
       },
     },
+    watch: {
+      getPromoCodeStatus(newVal, oldVal) {
+        if (newVal && !oldVal) {
+          this.$toasts.toast({
+            id: nanoid(),
+            intent: 'success',
+            title: 'Success',
+            message: 'Cod promo adaugat cu success',
+          });
+          this.resetForm();
+        }
+      },
+    },
     methods: {
       ...mapActions({
         fetchServices: 'services/fetchServices',
+        createPromoCode: 'admin/createPromoCode',
       }),
       onAddService(item) {
         const index = this.userData.service_ids.indexOf(item.id);
@@ -370,6 +401,36 @@
           services: services.services.filter(service => service.elites_required === elitesRequired),
         };
         return filteredServices;
+      },
+      async handleSubmit() {
+        let formData = new FormData();
+        Object.entries(this.userData).forEach(([key, value]) => {
+          if (key === 'service_ids') {
+            this.userData.service_ids.forEach(item => formData.append('promo_code[service_ids][]', item));
+          } else {
+            formData.append(`promo_code[${key}]`, value);
+          }
+        });
+        formData.append('promo_code[image]', this.promo_code);
+        await this.createPromoCode(formData);
+      },
+      handleFileUpload() {
+        this.promo_code = this.$refs['promo-code'].files[0];
+        this.createImage(this.promo_code);
+      },
+      createImage(file) {
+        var image = new Image();
+        var reader = new FileReader();
+
+        reader.onload = (e) => {
+          this.image = e.target.result;
+        };
+        reader.readAsDataURL(file);
+      },
+      resetForm() {
+        this.userData = this.blankUserData;
+        this.image = '';
+        this.promo_code = {};
       },
     },
 
@@ -389,31 +450,10 @@
       }
 
       const userData = ref(JSON.parse(JSON.stringify(blankUserData)))
-      const resetuserData = () => {
-        userData.value = JSON.parse(JSON.stringify(blankUserData))
-      }
-
-      const onSubmit = () => {
-        store.dispatch('app-user/addUser', userData.value)
-          .then(() => {
-            emit('refetch-data')
-            emit('update:is-add-new-user-sidebar-active', false)
-          })
-      }
-
-      const {
-        refFormObserver,
-        getValidationState,
-        resetForm,
-      } = formValidation(resetuserData)
 
       return {
+        blankUserData,
         userData,
-        onSubmit,
-
-        refFormObserver,
-        getValidationState,
-        resetForm,
       }
     },
   }
@@ -427,4 +467,42 @@
     max-height: 200px !important;
   }
 }
+
+#promo-code {
+  position: absolute;
+  visibility: hidden;
+}
+  .promo-code-container {
+    align-items: center;
+    border-color: #ffffff;
+    border-style: solid;
+    box-shadow: 0 0 8px 3px #b8b8b8;
+    display: flex;
+    height: 140px;
+    justify-content: center;
+    position: relative;
+    width: 240px;
+  }
+
+  .promo-code-container img,
+  .promo-code-container figure {
+    height: 140px;
+    margin: 0;
+    width: 240px;
+  }
+
+  .promo-code-container i {
+    align-items: center;
+    background-color: white;
+    border-radius: 50%;
+    bottom: 20px;
+    box-shadow: 0 0 8px 3px #b8b8b8;
+    color: #d00078;
+    display: flex !important;
+    height: 30px;
+    justify-content: center;
+    position: absolute;
+    right: -7px;
+    width: 30px;
+  }
 </style>

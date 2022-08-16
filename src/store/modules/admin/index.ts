@@ -29,6 +29,7 @@ export interface State extends ModuleState {
   cities: [];
   elites: [];
   promoCodes: [];
+  promoCodeAdded: boolean,
   selectedCity: any;
   selectedClient: any;
   selectedElite: any;
@@ -42,6 +43,7 @@ export default {
     elites: [],
     clients: [],
     cities: [],
+    promoCodeAdded: false,
     promoCodes: [],
     selectedCity: {
       id: '',
@@ -241,6 +243,24 @@ export default {
         Vue.set(state, 'isFetching', false);
       }
     },
+    async createPromoCode({ commit, dispatch, state }, formData) {
+      Vue.set(state, 'promoCodeAdded', false);
+      try {
+        await api.create(
+          'admin/promo_codes',
+          { data: formData },
+          {
+            contentType: 'multipart/form-data'
+          } as any,
+        );
+        Vue.set(state, 'promoCodeAdded', true);
+      } catch({ response: reason }) {
+        commit('common/setErrors', reason, { root: true });
+        Vue.set(state, 'promoCodeAdded', false);
+      }  finally {
+        Vue.set(state, 'isFetchingUser', false);
+      }
+    },
   } as ActionTree<State, RootState>,
 
   getters: {
@@ -248,6 +268,7 @@ export default {
     getClients: state => state.clients,
     getCities: state => state.cities,
     getElites: state => state.elites,
+    getPromoCodeStatus: state => state.promoCodeAdded,
     getPromoCodes: state => state.promoCodes,
     getSelectedCity: state => state.selectedCity,
     getSelectedClient: state => state.selectedClient,
