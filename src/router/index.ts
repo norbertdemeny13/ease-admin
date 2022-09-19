@@ -97,13 +97,19 @@ export const router = new VueRouter({
 router.beforeEach(async (to, from, next) => {
   let isAuthenticated = false;
 
-  const { params, path, query, name } = to;
+  const {
+    params,
+    path,
+    query,
+    name,
+    fullPath
+  } = to;
   const { type, id } = params;
  
   const savedCredentials = localStorage.getItem('savedCredentials');
   const email = localStorage.getItem('email');
   const password = localStorage.getItem('password');
-  
+
   if (!!savedCredentials && email && password) {
     store.dispatch('session/login', {
       credentials: {
@@ -112,7 +118,12 @@ router.beforeEach(async (to, from, next) => {
       },
     });
     isAuthenticated = true;
-    next();
+
+    if (fullPath === '/') {
+      next('/profesionisti');
+    } else {
+      next();
+    }
   }
 
   if (!isAuthenticated) {
