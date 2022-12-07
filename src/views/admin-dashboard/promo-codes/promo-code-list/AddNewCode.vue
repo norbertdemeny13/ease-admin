@@ -100,6 +100,7 @@
                 variant="outline-primary"
                 left
                 text="Services"
+                class="services-container"
               >
                 <b-dropdown-group
                   v-for="service in servicesList"
@@ -107,7 +108,7 @@
                   :key="service.id"
                   :header="$t(service.title)"
                 >
-                  <b-dropdown-group
+                  <div
                     v-for="item in service.items"
                     :id="`dropdown-group-${item.id}`"
                     :key="item.id"
@@ -150,7 +151,7 @@
                         </label>
                       </div>
                     </b-dropdown-item>
-                 </b-dropdown-group>
+                 </div>
                </b-dropdown-group>
               </b-dropdown>
             </b-form-group>
@@ -468,10 +469,10 @@
   }
 }
 
-#promo-code {
-  position: absolute;
-  visibility: hidden;
-}
+  #promo-code {
+    position: absolute;
+    visibility: hidden;
+  }
   .promo-code-container {
     align-items: center;
     border-color: #ffffff;
@@ -504,5 +505,11 @@
     position: absolute;
     right: -7px;
     width: 30px;
+  }
+
+  .services-container > ul {
+    height: 500px;
+    overflow: scroll;
+    overflow-x: hidden;
   }
 </style>
