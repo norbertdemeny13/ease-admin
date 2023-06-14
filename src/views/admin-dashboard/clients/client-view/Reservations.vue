@@ -95,6 +95,26 @@
         </b-avatar-group>
       </template>
 
+      <template #cell(necessary_products_image)="data">
+        <b-avatar-group size="32px">
+          <b-avatar
+            v-if="!data.item.necessary_products_image"
+            class="pull-up"
+            src="data.item.necessary_products_image"
+          />
+        </b-avatar-group>
+      </template>
+
+      <template #cell(pro_selfie_image)="data">
+        <b-avatar-group size="32px">
+          <b-avatar
+            v-if="!data.item.pro_selfie_image"
+            class="pull-up"
+            src="data.item.pro_selfie_image"
+          />
+        </b-avatar-group>
+      </template>
+
       <!-- Column: Actions -->
       <template #cell(actions)="data">
 

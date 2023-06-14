@@ -20,6 +20,8 @@ export default function useInvoicesList() {
     { key: 'elites' },
     { key: 'total', formatter: (val) => `${val} Lei`, sortable: true },
     { key: 'to_pay', formatter: (val) => `${val} Lei`, sortable: true },
+    { key: 'necessary_products_image' },
+    { key: 'pro_selfie_image' },
     { key: 'actions' },
   ]
   const perPage = ref(10)
